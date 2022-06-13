@@ -19,12 +19,14 @@
         
         // Enums to denote data to the technician
         public static NetworkStatus NetworkStatus = NetworkStatus.UNDETECTED;
+        public static NetworkStatus InternetStatus = NetworkStatus.UNDETECTED;
         
         // constants for system directories
         public const string WMIC = "C:\\Windows\\System32\\wbem\\wmic.exe";
         public const string FIND = "C:\\Windows\\System32\\find.exe";
         public const string FINDSTR = "C:\\Windows\\System32\\findstr.exe";
         public const string REG = "C:\\Windows\\System32\\reg.exe";
+        public const string ROBOCOPY = "C:\\Windows\\System32\\robocopy.exe";
         
         // Additional constants used throughout the program
         public const string BINDIR = "C:\\techbin\\";

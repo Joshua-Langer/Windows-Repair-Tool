@@ -11,8 +11,10 @@ namespace RepairTool
             StartScreen();
             CreateDirectories();
             CheckConfFile();
-            DetectInternet();
-            ResourceDownloader.DownloadTools();
+            CheckForLocalServer();
+            ResourceDownloader.CopyTools();
+            //DetectInternet();
+            //ResourceDownloader.DownloadTools();
         }
 
         private static void StartScreen()
@@ -112,13 +114,44 @@ namespace RepairTool
                 PingReply reply = p.Send(EnvironmentVars.HOST, 3000);
                 if (reply != null && reply.Status == IPStatus.Success)
                 {
+                    EnvironmentVars.InternetStatus = NetworkStatus.ONLINE;
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        Logger.LogInfo("Network status is " + EnvironmentVars.InternetStatus + ", systems will update as needed...", w);
+                        System.Threading.Thread.Sleep(1500);
+                        ResourceDownloader.CopyTools();
+                    }
+
+                }
+            }
+            catch
+            {
+                EnvironmentVars.InternetStatus = NetworkStatus.OFFLINE;
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogWarning("Network status is: " + EnvironmentVars.InternetStatus + ", some systems will not work in offline mode.", w);
+                    System.Threading.Thread.Sleep(1500);
+                }
+            }
+        }
+
+        private static void CheckForLocalServer()
+        {
+            Ping p = new Ping();
+            try
+            {
+                PingReply reply = p.Send(EnvironmentVars.NETWORKTEST, 3000);
+                
+                if (reply != null && reply.Status == IPStatus.Success)
+                {
                     EnvironmentVars.NetworkStatus = NetworkStatus.ONLINE;
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Network status is " + EnvironmentVars.NetworkStatus + " systems will update as needed...", w);
+                        Logger.LogInfo(
+                            "Network status is " + EnvironmentVars.NetworkStatus +
+                            ", systems can be copied from local network...", w);
                         System.Threading.Thread.Sleep(1500);
                     }
-
                 }
             }
             catch
@@ -126,16 +159,10 @@ namespace RepairTool
                 EnvironmentVars.NetworkStatus = NetworkStatus.OFFLINE;
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    Logger.LogWarning("Network status is: " + EnvironmentVars.NetworkStatus + " some systems will not work in offline mode.", w);
+                    Logger.LogWarning("Network status is: " + EnvironmentVars.NetworkStatus + ", some systems will not work in offline mode.", w);
                     System.Threading.Thread.Sleep(1500);
                 }
             }
-        }
-
-        private static bool CheckForLocalServer()
-        {
-
-            return false;
         }
     }
 }
