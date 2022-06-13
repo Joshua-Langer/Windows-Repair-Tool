@@ -6,4 +6,11 @@
         ONLINE,
         OFFLINE
     }
+
+    public enum InternetStatus
+    {
+        UNDETECTED,
+        ONLINE,
+        OFFLINE
+    }
 }

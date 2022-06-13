@@ -12,9 +12,9 @@ namespace RepairTool
             CreateDirectories();
             CheckConfFile();
             CheckForLocalServer();
+            DetectInternet();
             ResourceDownloader.CopyTools();
-            //DetectInternet();
-            //ResourceDownloader.DownloadTools();
+            Menu.Start();
         }
 
         private static void StartScreen()
@@ -22,6 +22,7 @@ namespace RepairTool
             Console.WriteLine("Windows System Repair Tool");
             Console.WriteLine("Written by: Joshua Langer");
             Console.WriteLine("Built in 2022");
+            Console.WriteLine(EnvironmentVars.APPVERSION);
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("Checking for existing directories and configurations... Please wait");
@@ -38,7 +39,7 @@ namespace RepairTool
             return Directory.Exists(EnvironmentVars.LOGDIR);
         }
 
-        private static bool CheckForResDir()
+        public static bool CheckForResDir()
         {
             return Directory.Exists(EnvironmentVars.RESDIR);
         }
@@ -114,19 +115,18 @@ namespace RepairTool
                 PingReply reply = p.Send(EnvironmentVars.HOST, 3000);
                 if (reply != null && reply.Status == IPStatus.Success)
                 {
-                    EnvironmentVars.InternetStatus = NetworkStatus.ONLINE;
+                    EnvironmentVars.InternetStatus = InternetStatus.ONLINE;
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Network status is " + EnvironmentVars.InternetStatus + ", systems will update as needed...", w);
                         System.Threading.Thread.Sleep(1500);
-                        ResourceDownloader.CopyTools();
                     }
 
                 }
             }
             catch
             {
-                EnvironmentVars.InternetStatus = NetworkStatus.OFFLINE;
+                EnvironmentVars.InternetStatus = InternetStatus.OFFLINE;
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
                     Logger.LogWarning("Network status is: " + EnvironmentVars.InternetStatus + ", some systems will not work in offline mode.", w);

@@ -45,11 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChoiceEngine.cs" />
     <Compile Include="ConfReader.cs" />
     <Compile Include="CreateConf.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EnvironmentVars.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Menu.cs" />
     <Compile Include="ResourceDownloader.cs" />
     <Compile Include="Systems.cs" />
     <Compile Include="Initializer.cs" />

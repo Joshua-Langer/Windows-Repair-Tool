@@ -25,24 +25,31 @@ namespace RepairTool
 
         public static void CopyTools()
         {
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.Arguments = "/MIR";
-            start.FileName = EnvironmentVars.ROBOCOPY;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-
-            int exitCode;
-
-            using (Process proc = Process.Start(start))
+            if (!Initializer.CheckForResDir())
             {
-                proc.WaitForExit();
+                ProcessStartInfo start = new ProcessStartInfo();
+                start.Arguments = EnvironmentVars.ROBOCOPYARGS;
+                start.FileName = EnvironmentVars.ROBOCOPY;
+                start.WindowStyle = ProcessWindowStyle.Hidden;
+                start.CreateNoWindow = true;
 
-                exitCode = proc.ExitCode;
+                int exitCode;
+
+                using (Process proc = Process.Start(start))
+                {
+                    proc.WaitForExit();
+
+                    exitCode = proc.ExitCode;
+                }
+
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo("Tool copy shows completed with exit code: " + exitCode, w);
+                }
             }
-
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Tool copy shows completed with exit code: " + exitCode, w);
+                Logger.LogInfo("Tools already exist, skipping tool copy.", w);
             }
         }
     }
