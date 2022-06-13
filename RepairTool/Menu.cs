@@ -11,6 +11,7 @@ namespace RepairTool
         public static void Start()
         {
             Console.Clear();
+            Console.Title = "Windows Repair Tool - " + EnvironmentVars.APPVERSION;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.Black;
             Console.WriteLine("           Windows Repair Tool " + EnvironmentVars.APPVERSION);

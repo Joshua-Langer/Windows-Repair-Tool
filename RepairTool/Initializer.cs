@@ -11,6 +11,8 @@ namespace RepairTool
             StartScreen();
             CreateDirectories();
             CheckConfFile();
+            Systems.WindowsVersionDetection();
+            Systems.SystemLanguage();
             CheckForLocalServer();
             DetectInternet();
             ResourceDownloader.CopyTools();

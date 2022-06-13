@@ -24,6 +24,7 @@ namespace RepairTool
                     {
                         Logger.LogInfo("Windows Repair Tool - Temp Cleaner", w);
                     }
+                    TempCleaner.RunTasks();
                     break;
                 case 2:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))

@@ -40,7 +40,7 @@ namespace RepairTool
         public const string NETWORK = "192.168.254.83";
         public const string NETWORKTEST = "10.0.10.7";
         public static string ROBOCOPYARGS = "\\" + NETWORK + "\\Tools\\Tron\\tron\\resources\\" + BINDIR + "/MIR";
-        public const string APPVERSION = "v.0.1.5";
+        public const string APPVERSION = "v.0.1.7";
 
         // Exit Codes
         public const int NORMALEXITCODE = 0;
