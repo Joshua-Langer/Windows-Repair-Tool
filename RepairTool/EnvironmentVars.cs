@@ -42,6 +42,10 @@ namespace RepairTool
         public static string ROBOCOPYARGS = "\\" + NETWORK + "\\Tools\\Tron\\tron\\resources\\" + BINDIR + "/MIR";
         public const string APPVERSION = "v.0.1.5";
 
+        // Exit Codes
+        public const int NORMALEXITCODE = 0;
+        
+
         // Working directories for each phase of repair
         public static string STAGE0 = RESDIR + "Prep\\";
         public static string STAGE1 = RESDIR + "TempClean\\";

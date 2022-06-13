@@ -13,7 +13,7 @@ namespace RepairTool
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine("             Windows Repair Tool");
+            Console.WriteLine("           Windows Repair Tool " + EnvironmentVars.APPVERSION);
             Console.WriteLine("Please enter a selection for your phase of repair");
             Console.WriteLine("");
             Console.WriteLine("");
@@ -26,7 +26,7 @@ namespace RepairTool
             Console.WriteLine("           7. Run All");
             Console.WriteLine("           8. Exit");
             var choice = ReadInt("Enter your phase: ");
-            
+            ChoiceEngine.ActionToTake(choice);
         }
 
         private static int ReadInt(string text)
