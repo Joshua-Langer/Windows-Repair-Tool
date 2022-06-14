@@ -10,13 +10,16 @@ namespace RepairTool
 {
     public class TempCleaner
     {
-        public static void RunTasks()
+        private static bool b_CalledSingle = true;
+        
+        public static void RunTasks(bool runOnce)
         {
+            b_CalledSingle = runOnce;
             ClearSSLCache();
             InternetExplorerClean();
             SystemTempFileCleanup();
-
-            Menu.Start(); // Placeholder, Will be moved to the last function in the TempCleaner Queue
+            CleanRecycleBin();
+            CleanupComplete();
         }
 
         private static void ClearSSLCache()
@@ -118,7 +121,51 @@ namespace RepairTool
             {
                 Logger.LogInfo("Complete...", w);
             }
-            
+        }
+
+        // TODO: Test
+        private static void CleanRecycleBin()
+        {
+            var binPath = EnvironmentVars.SYSDRIVE + "$Recycle.Bin";
+            Console.Title = "Windows Repair Tool - Temp Clean - Cleaning Recycle Bin " + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Clean Recycle Bin...", w);
+            }
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "rmdir /s /q " + binPath;
+            // Enter the executable to run, including the complete path
+            start.FileName = "cmd";
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+        }
+
+        private static void CleanupComplete()
+        {
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Cleanup complete...", w);
+            }
+            if (b_CalledSingle)
+                Menu.Start();
         }
 
         private static void EmptyProcFunction()

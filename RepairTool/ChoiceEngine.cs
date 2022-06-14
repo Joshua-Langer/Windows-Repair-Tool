@@ -24,49 +24,57 @@ namespace RepairTool
                     {
                         Logger.LogInfo("Windows Repair Tool - Temp Cleaner", w);
                     }
-                    TempCleaner.RunTasks();
+
+                    TempCleaner.RunTasks(true);
                     break;
                 case 2:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Windows Repair Tool - Debloater (NYI)", w);
                     }
+
                     break;
                 case 3:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Windows Repair Tool - Disinfector (NYI)", w);
                     }
+
                     break;
                 case 4:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Windows Repair Tool - OS Repair (NYI)", w);
                     }
+
                     break;
                 case 5:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Windows Repair Tool - Patch OS (NYI)", w);
                     }
+
                     break;
                 case 6:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Windows Repair Tool - Optimize OS (NYI)", w);
                     }
+
                     break;
                 case 7:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Windows Repair Tool - Repair All (NYI)", w);
+                        Logger.LogInfo("Windows Repair Tool - Repair All (PI)", w);
                     }
+                    RunAll();
                     break;
                 case 8:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Technician Requeseted an Exit.", w);
                     }
+
                     Environment.Exit(EnvironmentVars.NORMALEXITCODE);
                     break;
                 case 9:
@@ -74,6 +82,7 @@ namespace RepairTool
                     {
                         Logger.LogInfo("Debug a function is not enabled.\n Returning to Main Menu.", w);
                     }
+
                     Console.Clear();
                     Menu.Start();
                     break;
@@ -82,11 +91,16 @@ namespace RepairTool
                     {
                         Logger.LogWarning("Invalid Selection was made.\n Returning to Main Menu.", w);
                     }
+
                     Console.Clear();
                     Menu.Start();
                     break;
             }
+        }
 
+        private static void RunAll()
+        {
+            TempCleaner.RunTasks(false);
         }
     }
 }

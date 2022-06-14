@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace RepairTool
 {
@@ -24,6 +25,7 @@ namespace RepairTool
         public static InternetStatus InternetStatus = InternetStatus.UNDETECTED;
         
         // constants for system directories
+        public const string SYSDRIVE = "C:\\";
         public const string WINDIR = "C:\\Windows\\";
         public const string WMIC = WINDIR + "System32\\wbem\\wmic.exe";
         public const string FIND = WINDIR + "System32\\find.exe";
