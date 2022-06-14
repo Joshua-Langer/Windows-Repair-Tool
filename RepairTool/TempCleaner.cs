@@ -15,9 +15,10 @@ namespace RepairTool
         public static void RunTasks(bool runOnce)
         {
             b_CalledSingle = runOnce;
+            SystemTempFileCleanup();
             ClearSSLCache();
             InternetExplorerClean();
-            SystemTempFileCleanup();
+            
             CleanRecycleBin();
             CleanupComplete();
         }
@@ -91,31 +92,23 @@ namespace RepairTool
         // TODO: Test this
         private static void SystemTempFileCleanup()
         {
-            var tmpPath = EnvironmentVars.WINDIR + "Temp\\";
             Console.Title = "Windows Repair Tool - Temp Clean - Delete System Temp Files " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Cleaning System Temp Files...", w);
             }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "del /F /S /Q " + tmpPath;
-            // Enter the executable to run, including the complete path
-            start.FileName = "cmd";
-            // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            int exitCode;
 
+            Process p = new Process();
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.FileName = EnvironmentVars.STAGE1 + "systemp.bat";
+            p.Start();
 
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
+            var output = p.StandardOutput.ReadToEnd();
+            p.WaitForExit();
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
+                Logger.LogInfo(output, w);
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
