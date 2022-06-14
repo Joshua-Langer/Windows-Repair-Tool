@@ -22,6 +22,8 @@ namespace RepairTool
             CleanRecycleBin();
             RunCCleaner();
             USBDeviceCleanup();
+            ClearUpdateCache();
+            ResetBranchCache();
             CleanupComplete();
         }
 
@@ -91,7 +93,6 @@ namespace RepairTool
             }
         }
 
-        // TODO: Make this take ownership of Temp.
         private static void SystemTempFileCleanup()
         {
             Console.Title = "Windows Repair Tool - Temp Clean - Delete System Temp Files " + EnvironmentVars.APPVERSION;
@@ -162,16 +163,6 @@ namespace RepairTool
             {
                 Logger.LogInfo("Complete...", w);
             }
-        }
-
-        private static void CleanupComplete()
-        {
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Cleanup complete...", w);
-            }
-            if (b_CalledSingle)
-                Menu.Start();
         }
 
         private static void RunCCleaner()
@@ -261,6 +252,78 @@ namespace RepairTool
             }
         }
 
+        public static void ClearUpdateCache()
+        {
+            Console.Title = "Windows Repair Tool - Temp Clean - Clear Update Cache" + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Cleaning Update Files...", w);
+            }
+
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\updatecache.bat";
+            start.CreateNoWindow = true;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.StandardOutputEncoding = Encoding.UTF8;
+            int exitCode;
+
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+                var output = proc.StandardOutput.ReadToEnd();
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo(output, w);
+                }
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+
+
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+        }
+
+        public static void ResetBranchCache()
+        {
+            Console.Title = "Windows Repair Tool - Temp Clean - Reset Branch Cache " + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Resetting the Branch Cache...", w);
+            }
+
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\rbinclean.bat";
+            start.CreateNoWindow = true;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.StandardOutputEncoding = Encoding.UTF8;
+            int exitCode;
+
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+                var output = proc.StandardOutput.ReadToEnd();
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo(output, w);
+                }
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+
+
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+        }
+
         private static void EmptyProcFunction()
         {
             Console.Title = "Windows Repair Tool - Temp Clean - [JOB] " + EnvironmentVars.APPVERSION;
@@ -293,6 +356,15 @@ namespace RepairTool
                 Logger.LogInfo("Complete...", w);
             }
         }
-        
+
+        private static void CleanupComplete()
+        {
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Cleanup complete...", w);
+            }
+            if (b_CalledSingle)
+                Menu.Start();
+        }
     }
 }
