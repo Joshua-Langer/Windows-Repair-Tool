@@ -24,13 +24,14 @@ namespace RepairTool
         public static InternetStatus InternetStatus = InternetStatus.UNDETECTED;
         
         // constants for system directories
-        public const string WMIC = "C:\\Windows\\System32\\wbem\\wmic.exe";
-        public const string FIND = "C:\\Windows\\System32\\find.exe";
-        public const string FINDSTR = "C:\\Windows\\System32\\findstr.exe";
-        public const string REG = "C:\\Windows\\System32\\reg.exe";
-        public const string ROBOCOPY = "C:\\Windows\\System32\\robocopy.exe";
+        public const string WINDIR = "C:\\Windows\\";
+        public const string WMIC = WINDIR + "System32\\wbem\\wmic.exe";
+        public const string FIND = WINDIR + "System32\\find.exe";
+        public const string FINDSTR = WINDIR + "System32\\findstr.exe";
+        public const string REG = WINDIR + "System32\\reg.exe";
+        public const string ROBOCOPY = "System32\\robocopy.exe";
         
-        // Additional constants used throughout the program
+        // Additional constants used throughout the program - shown as statics for file paths as the Current Directory may change
         public static string BINDIR = Directory.GetCurrentDirectory();
         public static string LOGDIR = BINDIR +"\\logs\\";
         public static string RESDIR = BINDIR + "\\resources\\";

@@ -14,9 +14,9 @@ namespace RepairTool
         {
             ClearSSLCache();
             InternetExplorerClean();
-            TempFileCleanup();
+            SystemTempFileCleanup();
 
-            Menu.Start();
+            Menu.Start(); // Placeholder, Will be moved to the last function in the TempCleaner Queue
         }
 
         private static void ClearSSLCache()
@@ -85,14 +85,74 @@ namespace RepairTool
             }
         }
 
-        private static void TempFileCleanup()
+        // TODO: Test this
+        private static void SystemTempFileCleanup()
         {
-            var appdataPath = Environment.GetEnvironmentVariable("%USERPROFILE%");
+            var tmpPath = EnvironmentVars.WINDIR + "Temp\\";
+            Console.Title = "Windows Repair Tool - Temp Clean - Delete System Temp Files " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo(appdataPath, w);
+                Logger.LogInfo("Cleaning System Temp Files...", w);
             }
-            System.Threading.Thread.Sleep(15000);
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "del /F /S /Q " + tmpPath;
+            // Enter the executable to run, including the complete path
+            start.FileName = "cmd";
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+            
         }
+
+        private static void EmptyProcFunction()
+        {
+            Console.Title = "Windows Repair Tool - Temp Clean - [JOB] " + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Clean [JOB]...", w);
+            }
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "";
+            // Enter the executable to run, including the complete path
+            start.FileName = "";
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+        }
+        
     }
 }
