@@ -324,7 +324,7 @@ namespace RepairTool
             }
         }
 
-        private static void EmptyProcFunction()
+        private static void DefaultWindowsDiskCleanup()
         {
             Console.Title = "Windows Repair Tool - Temp Clean - [JOB] " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
