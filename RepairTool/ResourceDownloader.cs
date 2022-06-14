@@ -25,7 +25,7 @@ namespace RepairTool
 
         public static void CopyTools()
         {
-            if (!Initializer.CheckForResDir())
+            if (!true)
             {
                 ProcessStartInfo start = new ProcessStartInfo();
                 start.Arguments = EnvironmentVars.ROBOCOPYARGS;

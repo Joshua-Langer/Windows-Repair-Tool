@@ -72,9 +72,8 @@ namespace RepairTool
                 case 8:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Technician Requeseted an Exit.", w);
+                        Logger.LogInfo("System Exiting with exit code: " + EnvironmentVars.NORMALEXITCODE, w);
                     }
-
                     Environment.Exit(EnvironmentVars.NORMALEXITCODE);
                     break;
                 case 9:
@@ -101,6 +100,9 @@ namespace RepairTool
         private static void RunAll()
         {
             TempCleaner.RunTasks(false);
+
+
+            Menu.Start(); // TODO: Replace this with a complete screen with all logging data shown.
         }
     }
 }

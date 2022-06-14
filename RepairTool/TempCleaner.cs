@@ -15,11 +15,13 @@ namespace RepairTool
         public static void RunTasks(bool runOnce)
         {
             b_CalledSingle = runOnce;
-            SystemTempFileCleanup();
+            Console.Clear();
             ClearSSLCache();
             InternetExplorerClean();
-            
+            SystemTempFileCleanup();
             CleanRecycleBin();
+            RunCCleaner();
+            USBDeviceCleanup();
             CleanupComplete();
         }
 
@@ -89,7 +91,7 @@ namespace RepairTool
             }
         }
 
-        // TODO: Test this
+        // TODO: Make this take ownership of Temp.
         private static void SystemTempFileCleanup()
         {
             Console.Title = "Windows Repair Tool - Temp Clean - Delete System Temp Files " + EnvironmentVars.APPVERSION;
@@ -98,53 +100,64 @@ namespace RepairTool
                 Logger.LogInfo("Cleaning System Temp Files...", w);
             }
 
-            Process p = new Process();
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.FileName = EnvironmentVars.STAGE1 + "systemp.bat";
-            p.Start();
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\systemp.bat";
+            start.CreateNoWindow = true;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.StandardOutputEncoding = Encoding.UTF8;
+            int exitCode;
 
-            var output = p.StandardOutput.ReadToEnd();
-            p.WaitForExit();
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            using (Process proc = Process.Start(start))
             {
-                Logger.LogInfo(output, w);
+                proc.WaitForExit();
+                var output = proc.StandardOutput.ReadToEnd();
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo(output, w);
+                }
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
             }
+
+            
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Complete...", w);
             }
         }
 
-        // TODO: Test
         private static void CleanRecycleBin()
         {
-            var binPath = EnvironmentVars.SYSDRIVE + "$Recycle.Bin";
-            Console.Title = "Windows Repair Tool - Temp Clean - Cleaning Recycle Bin " + EnvironmentVars.APPVERSION;
+            Console.Title = "Windows Repair Tool - Temp Clean - Empty Recycle Bin " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Clean Recycle Bin...", w);
+                Logger.LogInfo("Cleaning System Temp Files...", w);
             }
-            // Prepare the process to run
+
             ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "rmdir /s /q " + binPath;
-            // Enter the executable to run, including the complete path
-            start.FileName = "cmd";
-            // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\rbinclean.bat";
             start.CreateNoWindow = true;
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.StandardOutputEncoding = Encoding.UTF8;
             int exitCode;
 
-
-            // Run the external process & wait for it to finish
             using (Process proc = Process.Start(start))
             {
                 proc.WaitForExit();
-
+                var output = proc.StandardOutput.ReadToEnd();
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo(output, w);
+                }
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
             }
+
+
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Complete...", w);
@@ -159,6 +172,93 @@ namespace RepairTool
             }
             if (b_CalledSingle)
                 Menu.Start();
+        }
+
+        private static void RunCCleaner()
+        {
+            string runPath;
+
+            if (Environment.Is64BitOperatingSystem)
+                runPath = EnvironmentVars.STAGE1 + "ccleaner\\ccleaner64.exe";
+            else
+                runPath = EnvironmentVars.STAGE1 + "ccleaner\\ccleaner.exe";
+
+
+            Console.Title = "Windows Repair Tool - Temp Clean - CCleaner " + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("CCleaner Job Started...", w);
+            }
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "/auto";
+            // Enter the executable to run, including the complete path
+            start.FileName = runPath;
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+
+                // Hardcoded delay for 2 minutes
+                System.Threading.Thread.Sleep(120000);
+
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+        }
+
+        private static void USBDeviceCleanup()
+        {
+            string runPath;
+
+            if (Environment.Is64BitOperatingSystem)
+                runPath = EnvironmentVars.STAGE1 + "usb_cleanup\\DriveCleanup x64.exe";
+            else
+                runPath = EnvironmentVars.STAGE1 + "usb_cleanup\\DriveCleanup x86.exe";
+
+            Console.Title = "Windows Repair Tool - Temp Clean - USB Cleanup " + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Clean up USB Devices...", w);
+            }
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "-n";
+            // Enter the executable to run, including the complete path
+            start.FileName = runPath;
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+
+                // Hardcoded delay for 30 seconds
+                System.Threading.Thread.Sleep(30000);
+
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
         }
 
         private static void EmptyProcFunction()

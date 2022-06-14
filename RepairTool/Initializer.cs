@@ -9,13 +9,8 @@ namespace RepairTool
         public static void Initialize()
         {
             StartScreen();
-            CreateDirectories();
             CheckConfFile();
-            Systems.WindowsVersionDetection();
-            Systems.SystemLanguage();
-            CheckForLocalServer();
-            DetectInternet();
-            ResourceDownloader.CopyTools();
+            SystemInfo();
             Menu.Start();
         }
 
@@ -27,62 +22,13 @@ namespace RepairTool
             Console.WriteLine(EnvironmentVars.APPVERSION);
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("Checking for existing directories and configurations... Please wait");
+            Console.WriteLine("Checking for updates... Please wait");
             System.Threading.Thread.Sleep(1500);
-        }
-
-        private static bool CheckForBinDir()
-        {
-            return Directory.Exists(EnvironmentVars.BINDIR);
-        }
-
-        private static bool CheckForLogDir()
-        {
-            return Directory.Exists(EnvironmentVars.LOGDIR);
-        }
-
-        public static bool CheckForResDir()
-        {
-            return Directory.Exists(EnvironmentVars.RESDIR);
         }
 
         private static bool CheckForExistingConf()
         {
             return File.Exists(EnvironmentVars.CONFFILE);
-        }
-        
-        private static void CreateDirectories()
-        {
-            if (CheckForBinDir() && CheckForLogDir() && CheckForResDir())
-            {
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogInfo("Application has been ran before, directories are present.", w);
-                    System.Threading.Thread.Sleep(1500);
-                }
-            }
-            
-            if (!CheckForBinDir())
-            {
-                Directory.CreateDirectory(EnvironmentVars.BINDIR);
-                Console.WriteLine("");
-                Console.WriteLine("techbin directory created");
-                System.Threading.Thread.Sleep(1500);
-            }
-
-            if (!CheckForLogDir())
-            {
-                Directory.CreateDirectory(EnvironmentVars.LOGDIR);
-                Console.WriteLine("log directory created");
-                System.Threading.Thread.Sleep(1500);
-            }
-
-            if (!CheckForResDir())
-            {
-                Directory.CreateDirectory(EnvironmentVars.RESDIR);
-                Console.WriteLine("resources directory created");
-                System.Threading.Thread.Sleep(1500);
-            }
         }
 
         private static void CheckConfFile()
@@ -109,61 +55,15 @@ namespace RepairTool
             }
         }
 
-        private static void DetectInternet()
+        private static void SystemInfo()
         {
-            Ping p = new Ping();
-            try
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                PingReply reply = p.Send(EnvironmentVars.HOST, 3000);
-                if (reply != null && reply.Status == IPStatus.Success)
-                {
-                    EnvironmentVars.InternetStatus = InternetStatus.ONLINE;
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        Logger.LogInfo("Network status is " + EnvironmentVars.InternetStatus + ", systems will update as needed...", w);
-                        System.Threading.Thread.Sleep(1500);
-                    }
-
-                }
+                Logger.LogInfo(Systems.WindowsVersionDetection(), w);
             }
-            catch
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                EnvironmentVars.InternetStatus = InternetStatus.OFFLINE;
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogWarning("Network status is: " + EnvironmentVars.InternetStatus + ", some systems will not work in offline mode.", w);
-                    System.Threading.Thread.Sleep(1500);
-                }
-            }
-        }
-
-        private static void CheckForLocalServer()
-        {
-            Ping p = new Ping();
-            try
-            {
-                PingReply reply = p.Send(EnvironmentVars.NETWORKTEST, 3000);
-                
-                if (reply != null && reply.Status == IPStatus.Success)
-                {
-                    EnvironmentVars.NetworkStatus = NetworkStatus.ONLINE;
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        Logger.LogInfo(
-                            "Network status is " + EnvironmentVars.NetworkStatus +
-                            ", systems can be copied from local network...", w);
-                        System.Threading.Thread.Sleep(1500);
-                    }
-                }
-            }
-            catch
-            {
-                EnvironmentVars.NetworkStatus = NetworkStatus.OFFLINE;
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogWarning("Network status is: " + EnvironmentVars.NetworkStatus + ", some systems will not work in offline mode.", w);
-                    System.Threading.Thread.Sleep(1500);
-                }
+                Logger.LogInfo(Systems.SystemLanguage(), w);
             }
         }
     }

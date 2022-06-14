@@ -21,7 +21,6 @@ namespace RepairTool
                     string sectionName = sec.Name;
                     string keyName = key.Name;
                     string keyValue = key.Value;
-                    Console.WriteLine(keyName + " = " + keyValue);
                     if (sectionName == "Booleans")
                     {
                         switch (keyName)
