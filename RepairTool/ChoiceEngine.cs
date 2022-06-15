@@ -24,7 +24,6 @@ namespace RepairTool
                     {
                         Logger.LogInfo("Windows Repair Tool - Temp Cleaner", w);
                     }
-
                     TempCleaner.RunTasks(true);
                     break;
                 case 2:
@@ -67,7 +66,7 @@ namespace RepairTool
                     {
                         Logger.LogInfo("Windows Repair Tool - Repair All (PI)", w);
                     }
-                    RunAll();
+                    Prep.RunTasks();
                     break;
                 case 8:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
@@ -79,11 +78,10 @@ namespace RepairTool
                 case 9:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Debugging the Setup() for Prep Stage", w);
+                        Logger.LogInfo("Debugging is turned off", w);
                     }
 
                     Console.Clear();
-                    Prep.RunTasks();
                     Menu.Start();
                     break;
                 default:
@@ -96,14 +94,6 @@ namespace RepairTool
                     Menu.Start();
                     break;
             }
-        }
-
-        private static void RunAll()
-        {
-            TempCleaner.RunTasks(false);
-
-
-            Menu.Start(); // TODO: Replace this with a complete screen with all logging data shown.
         }
     }
 }

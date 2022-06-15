@@ -11,6 +11,7 @@ namespace RepairTool
             StartScreen();
             CheckConfFile();
             SystemInfo();
+            CreateConf.UpdateConfiguration("Work State", "Initialize", "true");
             Menu.Start();
         }
 

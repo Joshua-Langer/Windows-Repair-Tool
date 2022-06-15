@@ -12,5 +12,10 @@ namespace RepairTool
         {
             WritePrivateProfileString(sec,name,data, EnvironmentVars.CONFFILE);
         }
+
+        public static void UpdateConfiguration(string sec, string name, string data)
+        {
+            WritePrivateProfileString(sec, name, data, EnvironmentVars.CONFFILE);
+        }
     }
 }

@@ -255,7 +255,7 @@ namespace RepairTool
 
         public static void ClearUpdateCache()
         {
-            Console.Title = "Windows Repair Tool - Temp Clean - Clear Update Cache" + EnvironmentVars.APPVERSION;
+            Console.Title = "Windows Repair Tool - Temp Clean - Clear Update Cache " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Cleaning Update Files...", w);
@@ -361,11 +361,12 @@ namespace RepairTool
 
         private static void CleanupComplete()
         {
+            CreateConf.UpdateConfiguration("Work State", "Temp", "true");
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Cleanup complete...", w);
             }
-            if (b_CalledSingle)
+            //if (b_CalledSingle)
                 Menu.Start();
         }
     }
