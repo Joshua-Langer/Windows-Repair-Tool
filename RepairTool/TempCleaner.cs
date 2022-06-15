@@ -24,6 +24,7 @@ namespace RepairTool
             USBDeviceCleanup();
             ClearUpdateCache();
             ResetBranchCache();
+            DefaultWindowsDiskCleanup();
             CleanupComplete();
         }
 
@@ -326,17 +327,18 @@ namespace RepairTool
 
         private static void DefaultWindowsDiskCleanup()
         {
-            Console.Title = "Windows Repair Tool - Temp Clean - [JOB] " + EnvironmentVars.APPVERSION;
+            var runFile = EnvironmentVars.WINDIR + "system32\\cleanmgr.exe";
+            Console.Title = "Windows Repair Tool - Temp Clean - Windows Disk Cleanup " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Clean [JOB]...", w);
+                Logger.LogInfo("Windows Disk Cleanup...", w);
             }
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "";
+            start.Arguments = "/sagerun:100";
             // Enter the executable to run, including the complete path
-            start.FileName = "";
+            start.FileName = runFile;
             // Do you want to show a console window?
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;
