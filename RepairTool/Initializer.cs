@@ -44,6 +44,14 @@ namespace RepairTool
                 CreateConf.NewConfiguration("Storage", "Free Space Before", EnvironmentVars.FreeSpaceBefore.ToString());
                 CreateConf.NewConfiguration("Storage", "Free Space Saved", EnvironmentVars.FreeSpaceSaved.ToString());
                 CreateConf.NewConfiguration("Work State", "Initialize", EnvironmentVars.InitializeCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "Prep", EnvironmentVars.PrepCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "Temp", EnvironmentVars.TempCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "Disinfect", EnvironmentVars.DisinfectCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "Debloat", EnvironmentVars.DebloatCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "OSPatch", EnvironmentVars.OSPatchCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "OSRepair", EnvironmentVars.OSRepairCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "Optimize", EnvironmentVars.OptimizeCompleted.ToString());
+                CreateConf.NewConfiguration("Work State", "WrapUp", EnvironmentVars.WrapUpCompleted.ToString());
                 Console.WriteLine("conf.ini file created");
                 System.Threading.Thread.Sleep(1500);
             }

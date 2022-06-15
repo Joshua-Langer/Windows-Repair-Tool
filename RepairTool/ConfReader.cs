@@ -64,6 +64,12 @@ namespace RepairTool
                             case "Initialize":
                                 EnvironmentVars.InitializeCompleted = Boolean.Parse(keyValue);
                                 break;
+                            case "Prep":
+                                EnvironmentVars.PrepCompleted = Boolean.Parse(keyValue);
+                                break;
+                            case "Temp":
+                                EnvironmentVars.DisinfectCompleted = Boolean.Parse(keyValue);
+                                break;
                         }
                     }
                 }

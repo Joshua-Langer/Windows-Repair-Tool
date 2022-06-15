@@ -79,10 +79,11 @@ namespace RepairTool
                 case 9:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Debug a function is not enabled.\n Returning to Main Menu.", w);
+                        Logger.LogInfo("Debugging the Setup() for Prep Stage", w);
                     }
 
                     Console.Clear();
+                    Prep.RunTasks();
                     Menu.Start();
                     break;
                 default:

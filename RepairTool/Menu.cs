@@ -36,7 +36,5 @@ namespace RepairTool
             var line = Console.ReadLine();
             return int.Parse(line);
         }
-
-
     }
 }

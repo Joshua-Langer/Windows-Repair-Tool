@@ -14,6 +14,15 @@ namespace RepairTool
         
         // Boolean values for stage completion
         public static bool InitializeCompleted = false;
+        public static bool PrepCompleted = false;
+        public static bool TempCompleted = false;
+        public static bool DisinfectCompleted = false;
+        public static bool DebloatCompleted = false;
+        public static bool OSRepairCompleted = false;
+        public static bool OSPatchCompleted = false;
+        public static bool OptimizeCompleted = false;
+        public static bool WrapUpCompleted = false;
+
 
         // Ints for space values
         public static int FreeSpaceAfter = 0;
@@ -43,7 +52,7 @@ namespace RepairTool
         public const string NETWORK = "192.168.254.83";
         public const string NETWORKTEST = "10.0.10.7";
         public static string ROBOCOPYARGS = "\\" + NETWORK + "\\Tools\\Tron\\tron\\resources\\" + BINDIR + "/MIR";
-        public const string APPVERSION = "v.0.1.9 Build 79";
+        public const string APPVERSION = "v.0.1.9 Build 88";
 
         // Exit Codes
         public const int NORMALEXITCODE = 0;
