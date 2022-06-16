@@ -82,6 +82,7 @@ namespace RepairTool
                     }
 
                     Console.Clear();
+                    
                     Menu.Start();
                     break;
                 default:

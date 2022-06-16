@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -22,6 +23,8 @@ namespace RepairTool
             NoSleep();
             ProcessKiller();
             RegBack();
+            NetInstall();
+
             PrepComplete();
         }
 
@@ -341,7 +344,150 @@ namespace RepairTool
             }
         }
 
+        // Check for .NET 3.5 minimum.
+        private static void NetInstall()
+        {
+            Console.Title = "Windows Repair Tool - Prep - McAfee Stinger " + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Checking for .NET 3.5 first...", w);
+            }
 
+            RegistryKey registryKey = Registry.LocalMachine;
+            registryKey = registryKey.OpenSubKey(@"software\microsoft\net framework setup\ndp\v3.5");
+
+            if (registryKey == null)
+            {
+                InstallNetThreeFive();
+            }
+            else
+            {
+                Stinger();
+            }
+        }
+
+        private static void InstallNetThreeFive()
+        {
+            var runFile = EnvironmentVars.WINDIR + "system32\\dism.exe";
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Installing .NET 3.5...", w);
+            }
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            start.UseShellExecute = false;
+            start.RedirectStandardOutput = true;
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "/online /enable-feature /featurename:NetFX3 /source:C:sourcessxs /LimitAccess";
+
+            // Enter the executable to run, including the complete path
+            start.FileName = runFile;
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+                var output = proc.StandardOutput.ReadToEnd();
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo(output, w);
+                }
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+
+                if (exitCode != 0)
+                {
+                    var netInstallFail = true;
+                    TDKiller(netInstallFail);
+                }
+                else
+                {
+                    Stinger();
+                }
+            }
+        }
+
+        private static void Stinger()
+        {
+            var runFile = EnvironmentVars.STAGE0 + "\\mcafee_stinger\\stinger32.exe";
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("[Job]...", w);
+            }
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.LOGDIR + " --DELETE";
+            // Enter the executable to run, including the complete path
+            start.FileName = runFile;
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+        }
+
+        private static void TDKiller(bool stingerSkipped)
+        {
+            if (stingerSkipped)
+            {
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    EnvironmentVars.WarningsDetected = true;
+                    Logger.LogWarning("Stinger was skipped due to an issue with .NET 3.5 install.", w);
+                    CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                }
+            }
+
+            var runFile = EnvironmentVars.STAGE0 + "tdss_killer\\TDSSKiller.exe";
+            Console.Title = "Windows Repair Tool - Prep - TDSS Killer " + EnvironmentVars.APPVERSION;
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Running TDSS Killer...", w);
+            }
+            // Prepare the process to run
+            ProcessStartInfo start = new ProcessStartInfo();
+            // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.Arguments = "-l " + EnvironmentVars.LOGDIR + " -silent -tdlfs -dcexact - accepteula -accepteulaksa";
+            // Enter the executable to run, including the complete path
+            start.FileName = runFile;
+            // Do you want to show a console window?
+            start.WindowStyle = ProcessWindowStyle.Hidden;
+            start.CreateNoWindow = true;
+            int exitCode;
+
+
+            // Run the external process & wait for it to finish
+            using (Process proc = Process.Start(start))
+            {
+                proc.WaitForExit();
+
+                // Retrieve the app's exit code
+                exitCode = proc.ExitCode;
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Complete...", w);
+            }
+        }
 
         private static void Blank()
         {
