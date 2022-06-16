@@ -21,7 +21,7 @@ namespace RepairTool
             MetroDump();
             NoSleep();
             ProcessKiller();
-
+            RegBack();
             PrepComplete();
         }
 
@@ -309,16 +309,16 @@ namespace RepairTool
 
         private static void RegBack()
         {
-            var runFile = EnvironmentVars.STAGE0 + "";
-            Console.Title = "Windows Repair Tool - Prep - [Job] " + EnvironmentVars.APPVERSION;
+            var runFile = EnvironmentVars.STAGE0 + "backup_registry\\erunt.exe";
+            Console.Title = "Windows Repair Tool - Prep - Registry Backup " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("[Job]...", w);
+                Logger.LogInfo("Backing up the registry...", w);
             }
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "";
+            start.Arguments = EnvironmentVars.LOGDIR + "registry_backup /noconfirmdelete /noprogresswindow";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
