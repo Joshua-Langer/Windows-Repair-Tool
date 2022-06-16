@@ -54,6 +54,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("SSL Cache was not cleared.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -87,6 +96,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Internet Explorer data was not cleaned.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -121,6 +139,15 @@ namespace RepairTool
                 }
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("System Temp files were not cleaned.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
 
             
@@ -157,9 +184,16 @@ namespace RepairTool
                 }
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Hidden recycle bin folder was not cleaned.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
-
-
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Complete...", w);
@@ -203,6 +237,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("CCleaner failed to run correctly or was killed.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -246,6 +289,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("USB Device data was not cleaned.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -280,6 +332,15 @@ namespace RepairTool
                 }
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Update Cache was not cleaned out.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
 
 
@@ -300,7 +361,7 @@ namespace RepairTool
             ProcessStartInfo start = new ProcessStartInfo();
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
-            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\rbinclean.bat";
+            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\branchcache.bat";
             start.CreateNoWindow = true;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.StandardOutputEncoding = Encoding.UTF8;
@@ -316,6 +377,15 @@ namespace RepairTool
                 }
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Branch Cache was not cleaned.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
 
 
@@ -352,6 +422,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Windows disk cleanup did not run correctly.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {

@@ -57,8 +57,16 @@ namespace RepairTool
                 }
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Restore point may not have been made, be cautious.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
-
 
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -81,7 +89,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-s -l " + EnvironmentVars.LOGDIR + "tron_rkill.log -w " + EnvironmentVars.STAGE0 + "rkill\\rkill_process_whitelist.txt";
+            start.Arguments = "-s -l " + EnvironmentVars.LOGDIR + "xrkill.log -w " + EnvironmentVars.STAGE0 + "rkill\\rkill_process_whitelist.txt";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -97,6 +105,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("RKill failed to run or was killed.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -137,6 +154,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("System Programs were not logged", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
         }
 
@@ -163,6 +189,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("System file list was not logged.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -197,6 +232,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("GUID dump was not completed.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -231,6 +275,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Metro App Dump was not completed.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -265,6 +318,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Caffeine was not run or manually closed, this system may go to sleep during the scans.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -299,6 +361,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("ProcessKiller did not run correctly.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -333,6 +404,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("System Registry was not backed up.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -388,6 +468,7 @@ namespace RepairTool
             using (Process proc = Process.Start(start))
             {
                 proc.WaitForExit();
+                System.Threading.Thread.Sleep(30000);
                 var output = proc.StandardOutput.ReadToEnd();
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
@@ -413,7 +494,7 @@ namespace RepairTool
             var runFile = EnvironmentVars.STAGE0 + "\\mcafee_stinger\\stinger32.exe";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("[Job]...", w);
+                Logger.LogInfo("Running McAfee Stinger...", w);
             }
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
@@ -434,6 +515,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("Stinger failed to run correctly", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -462,7 +552,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-l " + EnvironmentVars.LOGDIR + " -silent -tdlfs -dcexact - accepteula -accepteulaksa";
+            start.Arguments = "-l " + EnvironmentVars.LOGDIR + " -silent -tdlfs -dcexact - accepteula -accepteulaksn";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -478,6 +568,15 @@ namespace RepairTool
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
+                if (exitCode != 0)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                        Logger.LogWarning("TDSS Killer failed to run correctly.", w);
+                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
+                    }
+                }
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
