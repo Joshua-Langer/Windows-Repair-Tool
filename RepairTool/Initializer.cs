@@ -75,24 +75,27 @@ namespace RepairTool
                 Logger.LogInfo(Systems.SystemLanguage(), w);
             }
 
-            
+            GetDriveDetails();
         }
 
-        private static void GetDriveDetails() // TODO: Find a way to do this, it is failing even as admin.
+        private static void GetDriveDetails()
         {
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Getting Drive Space Details. Please wait...", w);
             }
 
-            DriveInfo[] allDrives = DriveInfo.GetDrives();
-            
-            foreach (DriveInfo d in allDrives)
-            {
-                EnvironmentVars.FreeSpaceBefore += ((int)d.AvailableFreeSpace / (1024 * 1024 * 1024));
-            }
+            DriveInfo driveInfo = new DriveInfo("C");
 
-            CreateConf.UpdateConfiguration("Storage", "Free Space Before", EnvironmentVars.FreeSpaceBefore.ToString() + " GB");
+            if (driveInfo.IsReady)
+            {
+                EnvironmentVars.FreeSpaceBefore = (int)(driveInfo.AvailableFreeSpace / (1024 * 1024 * 1024));
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Current Free Space is: " + EnvironmentVars.FreeSpaceBefore + "GB", w);
+            }
+            CreateConf.UpdateConfiguration("Storage", "Free Space Before", EnvironmentVars.FreeSpaceBefore.ToString());
         }
     }
 }
