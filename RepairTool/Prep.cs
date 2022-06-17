@@ -11,6 +11,8 @@ namespace RepairTool
         public static void RunTasks()
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.BackgroundColor = ConsoleColor.Black;
             Setup();
             RKill();
             SystemState();

@@ -34,7 +34,7 @@ namespace RepairTool
         {
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo(name + " is running this repair job on " + Systems.CurrentDateTime(), w);
+                Logger.LogInfo(name + " is running this repair job.", w);
             }
         }
 
