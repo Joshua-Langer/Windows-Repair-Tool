@@ -9,6 +9,9 @@ namespace RepairTool
 {
     public static class ChoiceEngine
     {
+
+        private const bool RANFROMDEBUGMENU = true;
+
         /// <summary>
         /// Initializes the engine to decide what steps we are automating 
         /// for configuration of a system.
@@ -24,14 +27,14 @@ namespace RepairTool
                     {
                         Logger.LogInfo("Windows Repair Tool - Temp Cleaner", w);
                     }
-                    TempCleaner.RunTasks(true);
+                    TempCleaner.RunTasks(RANFROMDEBUGMENU);
                     break;
                 case 2:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
                         Logger.LogInfo("Windows Repair Tool - Debloater", w);
                     }
-
+                    SystemDebloat.RunTasks(RANFROMDEBUGMENU);
                     break;
                 case 3:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
@@ -74,16 +77,6 @@ namespace RepairTool
                         Logger.LogInfo("System Exiting with exit code: " + EnvironmentVars.NORMALEXITCODE, w);
                     }
                     Environment.Exit(EnvironmentVars.NORMALEXITCODE);
-                    break;
-                case 9:
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        Logger.LogInfo("Debugging is enabled", w);
-                    }
-
-                    Console.Clear();
-                    Prep.RunTasks();
-                    Menu.Start();
                     break;
                 default:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))

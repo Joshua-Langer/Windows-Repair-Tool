@@ -8,15 +8,28 @@ namespace RepairTool
     {
         public static void Initialize()
         {
-            StartScreen();
-            CheckConfFile();
-            SystemInfo();
-            EnvironmentVars.InitializeCompleted = true;
-            CreateConf.UpdateConfiguration("Work State", "Initialize", EnvironmentVars.InitializeCompleted.ToString());
-            Menu.Start();
+            if (EnvironmentVars.DebugMode)
+            {
+                CheckConfFile();
+                SystemInfo();
+                GetDriveDetails();
+                EnvironmentVars.InitializeCompleted = true;
+                CreateConf.UpdateConfiguration("Work State", "Initialize", EnvironmentVars.InitializeCompleted.ToString());
+                Menu.Start();
+            }
+            else
+            {
+                UsageAgreement.Agreement();
+                CheckConfFile();
+                SystemInfo();
+                GetDriveDetails();
+                EnvironmentVars.InitializeCompleted = true;
+                CreateConf.UpdateConfiguration("Work State", "Initialize", EnvironmentVars.InitializeCompleted.ToString());
+                Prep.RunTasks();
+            }
         }
 
-        private static void StartScreen()
+        public static void StartScreen()
         {
             Console.WriteLine("Windows System Repair Tool");
             Console.WriteLine("Written by: Joshua Langer");
@@ -62,6 +75,7 @@ namespace RepairTool
                 ConfReader.ConfigRead(EnvironmentVars.CONFFILE);
                 Console.WriteLine("conf.ini file read and applied");
                 System.Threading.Thread.Sleep(1500);
+                // TODO: Set this to read the new bools and start the run at the first false phase.
             }
         }
 
@@ -75,8 +89,6 @@ namespace RepairTool
             {
                 Logger.LogInfo(Systems.SystemLanguage(), w);
             }
-
-            GetDriveDetails();
         }
 
         private static void GetDriveDetails()

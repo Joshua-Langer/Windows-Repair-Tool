@@ -5,12 +5,13 @@ namespace RepairTool
 {
     public static class EnvironmentVars
     {
-        // Boolean values to denote possible issues
+        // Boolean values to denote issues and debugging.
         public static bool ErrorsDetected = false;
         public static bool WarningsDetected = false;
         public static bool TargetMetro = false;
         public static bool Help = false;
         public static bool SkipCheckUpdate = false;
+        public static bool DebugMode = true;
         
         // Boolean values for stage completion
         public static bool InitializeCompleted = false;
@@ -52,7 +53,7 @@ namespace RepairTool
         public const string NETWORK = "192.168.254.83";
         public const string NETWORKTEST = "10.0.10.7";
         public static string ROBOCOPYARGS = "\\" + NETWORK + "\\Tools\\Tron\\tron\\resources\\" + BINDIR + "/MIR";
-        public const string APPVERSION = "v.0.2.1 Build 114";
+        public const string APPVERSION = "v.0.2.2 Build 116 - DEBUG";
 
         // Exit Codes
         public const int NORMALEXITCODE = 0;
