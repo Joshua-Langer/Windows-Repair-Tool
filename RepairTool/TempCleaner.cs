@@ -162,7 +162,7 @@ namespace RepairTool
             Console.Title = "Windows Repair Tool - Temp Clean - Empty Recycle Bin " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Cleaning System Temp Files...", w);
+                Logger.LogInfo("Cleaning hidden recycle bins...", w);
             }
 
             ProcessStartInfo start = new ProcessStartInfo();

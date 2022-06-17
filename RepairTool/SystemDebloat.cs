@@ -17,7 +17,6 @@ namespace RepairTool
             b_SingleRun = singleRun;
             RemoveBloatwareByGUID();
             ClearWindowsApps();
-
             DebloatCompleted();
         }
 
@@ -174,13 +173,14 @@ namespace RepairTool
             var runFile = EnvironmentVars.STAGE2 + "junkware.bat";
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
+            start.UseShellExecute = false;
             // Enter in the command line arguments, everything you would enter after the executable name itself
+            start.RedirectStandardOutput = true;
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
-            int exitCode;
+            start.WindowStyle = ProcessWindowStyle.Normal;
+            start.CreateNoWindow = false;
 
 
             // Run the external process & wait for it to finish
