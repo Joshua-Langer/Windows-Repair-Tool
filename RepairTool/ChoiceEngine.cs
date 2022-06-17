@@ -29,7 +29,7 @@ namespace RepairTool
                 case 2:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Windows Repair Tool - Debloater (NYI)", w);
+                        Logger.LogInfo("Windows Repair Tool - Debloater", w);
                     }
 
                     break;
@@ -64,7 +64,7 @@ namespace RepairTool
                 case 7:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Windows Repair Tool - Repair All (PI)", w);
+                        Logger.LogInfo("Windows Repair Tool - Repair All", w);
                     }
                     Prep.RunTasks();
                     break;
@@ -78,11 +78,11 @@ namespace RepairTool
                 case 9:
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
-                        Logger.LogInfo("Debugging is turned off", w);
+                        Logger.LogInfo("Debugging is enabled", w);
                     }
 
                     Console.Clear();
-                    
+                    Prep.RunTasks();
                     Menu.Start();
                     break;
                 default:

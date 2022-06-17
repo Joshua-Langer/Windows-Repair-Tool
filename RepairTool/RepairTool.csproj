@@ -69,6 +69,7 @@
     <Compile Include="Menu.cs" />
     <Compile Include="Prep.cs" />
     <Compile Include="ResourceDownloader.cs" />
+    <Compile Include="SystemDebloat.cs" />
     <Compile Include="Systems.cs" />
     <Compile Include="Initializer.cs" />
     <Compile Include="PrerunChecks.cs" />

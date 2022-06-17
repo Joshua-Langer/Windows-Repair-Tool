@@ -11,7 +11,8 @@ namespace RepairTool
             StartScreen();
             CheckConfFile();
             SystemInfo();
-            CreateConf.UpdateConfiguration("Work State", "Initialize", "true");
+            EnvironmentVars.InitializeCompleted = true;
+            CreateConf.UpdateConfiguration("Work State", "Initialize", EnvironmentVars.InitializeCompleted.ToString());
             Menu.Start();
         }
 
@@ -84,6 +85,8 @@ namespace RepairTool
             {
                 Logger.LogInfo("Getting Drive Space Details. Please wait...", w);
             }
+
+            System.Threading.Thread.Sleep(1500);
 
             DriveInfo driveInfo = new DriveInfo("C");
 

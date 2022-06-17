@@ -440,13 +440,16 @@ namespace RepairTool
 
         private static void CleanupComplete()
         {
-            CreateConf.UpdateConfiguration("Work State", "Temp", "true");
+            EnvironmentVars.TempCompleted = true;
+            CreateConf.UpdateConfiguration("Work State", "Temp", EnvironmentVars.TempCompleted.ToString());
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Cleanup complete...", w);
             }
-            //if (b_CalledSingle)
+            if (b_CalledSingle)
                 Menu.Start();
+            else
+                SystemDebloat.RunTasks(false);
         }
     }
 }

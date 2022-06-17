@@ -89,7 +89,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-s -l " + EnvironmentVars.LOGDIR + "xrkill.log -w " + EnvironmentVars.STAGE0 + "rkill\\rkill_process_whitelist.txt";
+            start.Arguments = "-s -l " + EnvironmentVars.LOGDIR + "rawlogs\\xrkill.log -w " + EnvironmentVars.STAGE0 + "rkill\\rkill_process_whitelist.txt";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -138,7 +138,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-save=[software]=" + EnvironmentVars.LOGDIR + "installed-programs-before.txt";
+            start.Arguments = "-save=[software]=" + EnvironmentVars.LOGDIR + "rawlogs\\installed-programs-before.txt";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -173,7 +173,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-create-filelist " + EnvironmentVars.LOGDIR + "filelist-before.txt C:\\";
+            start.Arguments = "-create-filelist " + EnvironmentVars.LOGDIR + "rawlogs\\filelist-before.txt C:\\";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -216,7 +216,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "product get identifyingnumber,name,version /all > " + EnvironmentVars.LOGDIR + "wmic_dump.log";
+            start.Arguments = "product get identifyingnumber,name,version /all > " + EnvironmentVars.LOGDIR + "rawlogs\\wmic_dump.log";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -259,7 +259,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "Get-AppxPackage -AllUsers | Select Name > " + EnvironmentVars.LOGDIR + "metro_app_dump.log";
+            start.Arguments = "Get-AppxPackage -AllUsers | Select Name > " + EnvironmentVars.LOGDIR + "rawlogs\\metro_app_dump.log";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -308,17 +308,12 @@ namespace RepairTool
             // Do you want to show a console window?
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.CreateNoWindow = true;
-            int exitCode;
 
 
             // Run the external process & wait for it to finish
             using (Process proc = Process.Start(start))
             {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                if (proc.HasExited)
                 {
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
@@ -499,7 +494,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.LOGDIR + " --DELETE";
+            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.LOGDIR + "rawlogs\\ --DELETE";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -552,7 +547,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-l " + EnvironmentVars.LOGDIR + " -silent -tdlfs -dcexact - accepteula -accepteulaksn";
+            start.Arguments = "-l " + EnvironmentVars.LOGDIR + "rawlogs\\ -silent -tdlfs -dcexact - accepteula -accepteulaksn";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
