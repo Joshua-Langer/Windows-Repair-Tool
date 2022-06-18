@@ -16,7 +16,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 4.8.x
+        dotnet-version: 5.0.x
     
     - name: Install dependencies
       run: dotnet add package MadMilkman.Ini --version 1.0.6
