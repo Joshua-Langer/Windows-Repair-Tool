@@ -1,8 +1,6 @@
 name: .NET
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -17,8 +15,9 @@ jobs:
       uses: actions/setup-dotnet@v2
       with:
         dotnet-version: 4.8.x
-    - name: Restore dependencies
-      run: dotnet restore
+    
+    - name: Install dependencies
+      run: dotnet add package MadMilkman.Ini --version 1.0.6
     - name: Build
       run: dotnet build --no-restore
     - name: Test
