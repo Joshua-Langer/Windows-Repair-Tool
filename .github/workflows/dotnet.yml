@@ -1,6 +1,8 @@
 name: .NET
 
 on:
+  push:
+    branches: [ "disinfect"]
   pull_request:
     branches: [ "master" ]
 
