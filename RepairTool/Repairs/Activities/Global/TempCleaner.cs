@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RepairTool.Core;
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace RepairTool
+namespace RepairTool.Repairs.Activities.Global
 {
     public class TempCleaner
     {
@@ -15,7 +13,6 @@ namespace RepairTool
         public static void RunTasks(bool runOnce)
         {
             b_CalledSingle = runOnce;
-            Console.Clear();
             ClearSSLCache();
             InternetExplorerClean();
             SystemTempFileCleanup();
@@ -60,7 +57,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("SSL Cache was not cleared.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -102,7 +98,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Internet Explorer data was not cleaned.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -123,7 +118,7 @@ namespace RepairTool
             ProcessStartInfo start = new ProcessStartInfo();
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
-            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\systemp.bat";
+            start.FileName = EnvironmentVars.GLOBALREP + "\\tempfilecleanup\\systemp.bat";
             start.CreateNoWindow = true;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.StandardOutputEncoding = Encoding.UTF8;
@@ -145,7 +140,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("System Temp files were not cleaned.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -168,7 +162,7 @@ namespace RepairTool
             ProcessStartInfo start = new ProcessStartInfo();
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
-            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\rbinclean.bat";
+            start.FileName = EnvironmentVars.GLOBALREP + "\\tempfilecleanup\\rbinclean.bat";
             start.CreateNoWindow = true;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.StandardOutputEncoding = Encoding.UTF8;
@@ -190,7 +184,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Hidden recycle bin folder was not cleaned.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -205,9 +198,9 @@ namespace RepairTool
             string runPath;
 
             if (Environment.Is64BitOperatingSystem)
-                runPath = EnvironmentVars.STAGE1 + "ccleaner\\ccleaner64.exe";
+                runPath = EnvironmentVars.GLOBALREP + "ccleaner\\ccleaner64.exe";
             else
-                runPath = EnvironmentVars.STAGE1 + "ccleaner\\ccleaner.exe";
+                runPath = EnvironmentVars.GLOBALREP + "ccleaner\\ccleaner.exe";
 
 
             Console.Title = "Windows Repair Tool - Temp Clean - CCleaner " + EnvironmentVars.APPVERSION;
@@ -243,7 +236,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("CCleaner failed to run correctly or was killed.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -258,9 +250,9 @@ namespace RepairTool
             string runPath;
 
             if (Environment.Is64BitOperatingSystem)
-                runPath = EnvironmentVars.STAGE1 + "usb_cleanup\\DriveCleanup x64.exe";
+                runPath = EnvironmentVars.GLOBALREP + "usb_cleanup\\DriveCleanup x64.exe";
             else
-                runPath = EnvironmentVars.STAGE1 + "usb_cleanup\\DriveCleanup x86.exe";
+                runPath = EnvironmentVars.GLOBALREP + "usb_cleanup\\DriveCleanup x86.exe";
 
             Console.Title = "Windows Repair Tool - Temp Clean - USB Cleanup " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
@@ -295,7 +287,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("USB Device data was not cleaned.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -316,7 +307,7 @@ namespace RepairTool
             ProcessStartInfo start = new ProcessStartInfo();
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
-            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\updatecache.bat";
+            start.FileName = EnvironmentVars.GLOBALREP + "\\tempfilecleanup\\updatecache.bat";
             start.CreateNoWindow = true;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.StandardOutputEncoding = Encoding.UTF8;
@@ -338,7 +329,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Update Cache was not cleaned out.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -361,7 +351,7 @@ namespace RepairTool
             ProcessStartInfo start = new ProcessStartInfo();
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
-            start.FileName = EnvironmentVars.STAGE1 + "\\tempfilecleanup\\branchcache.bat";
+            start.FileName = EnvironmentVars.GLOBALREP + "\\tempfilecleanup\\branchcache.bat";
             start.CreateNoWindow = true;
             start.WindowStyle = ProcessWindowStyle.Hidden;
             start.StandardOutputEncoding = Encoding.UTF8;
@@ -383,7 +373,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Branch Cache was not cleaned.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -428,7 +417,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Windows disk cleanup did not run correctly.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -440,16 +428,12 @@ namespace RepairTool
 
         private static void CleanupComplete()
         {
-            EnvironmentVars.TempCompleted = true;
-            CreateConf.UpdateConfiguration("Work State", "Temp", EnvironmentVars.TempCompleted.ToString());
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Cleanup complete...", w);
             }
-            if (b_CalledSingle)
-                Menu.Start();
-            else
-                SystemDebloat.RunTasks(false);
+
+            SystemUpdater.CheckForUpdates();
         }
     }
 }

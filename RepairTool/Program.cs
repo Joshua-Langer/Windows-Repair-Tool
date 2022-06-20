@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RepairTool.Core;
+using System;
 
 namespace RepairTool
 {
@@ -6,9 +7,8 @@ namespace RepairTool
     {
         public static void Main(string[] args)
         {
-            Console.Title = "Windows Repair Tool " + EnvironmentVars.APPVERSION + " running on " + Systems.WindowsVersionDetection();
-            Initializer.StartScreen();
-            Initializer.Initialize();
+            Console.Title = EnvironmentVars.COMPANYNAME + " Maintenance Tool " + EnvironmentVars.APPVERSION;
+            SystemCheck.Initialize();
         }
     }
 }

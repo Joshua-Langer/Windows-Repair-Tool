@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using RepairTool.Core;
+using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RepairTool
+namespace RepairTool.Repairs.Activities.Global
 {
     public static class SystemDebloat
     {
@@ -27,10 +24,10 @@ namespace RepairTool
             {
                 Logger.LogInfo("Comparing system GUID list against blacklisted entries, please wait...", w);
             }
-            string[] junkWare = File.ReadAllLines(EnvironmentVars.STAGE2 + "oem\\programs_to_target_by_GUID.txt");
-            if (File.Exists(EnvironmentVars.STAGE0 + "wmic_dump.log"))
+            string[] junkWare = File.ReadAllLines(EnvironmentVars.GLOBALREP + "oem\\programs_to_target_by_GUID.txt");
+            if (File.Exists(EnvironmentVars.RAWLOGDIR + "wmic_dump.log"))
             {
-                string[] currentGUIDList = File.ReadAllLines(EnvironmentVars.STAGE0 + "wmic_dump.log");
+                string[] currentGUIDList = File.ReadAllLines(EnvironmentVars.RAWLOGDIR + "wmic_dump.log");
 
                 for (int i = 0; i < currentGUIDList.Length; i++)
                 {
@@ -94,10 +91,10 @@ namespace RepairTool
             {
                 Logger.LogInfo("Comparing system GUID list against blacklisted entries, please wait...", w);
             }
-            string[] junkWare = File.ReadAllLines(EnvironmentVars.STAGE2 + "oem\\toolbars_BHOs_to_target_by_GUID.txt");
-            if (File.Exists(EnvironmentVars.STAGE0 + "wmic_dump.log"))
+            string[] junkWare = File.ReadAllLines(EnvironmentVars.GLOBALREP + "oem\\toolbars_BHOs_to_target_by_GUID.txt");
+            if (File.Exists(EnvironmentVars.RAWLOGDIR + "wmic_dump.log"))
             {
-                string[] currentGUIDList = File.ReadAllLines(EnvironmentVars.STAGE0 + "wmic_dump.log");
+                string[] currentGUIDList = File.ReadAllLines(EnvironmentVars.RAWLOGDIR + "wmic_dump.log");
 
                 for (int i = 0; i < currentGUIDList.Length; i++)
                 {
@@ -148,7 +145,6 @@ namespace RepairTool
                 {
                     Logger.LogInfo("No GUID List to compare against. Skipping GUID Toolbar removal...", w);
                     EnvironmentVars.WarningsDetected = true;
-                    CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     RemoveBloatwareByName();
                 }
             }
@@ -169,8 +165,8 @@ namespace RepairTool
             {
                 Logger.LogInfo("Errors about 'SHUTTING DOWN' are safe to ignore...", w);
             }
-            string[] junkWare = File.ReadAllLines(EnvironmentVars.STAGE2 + "oem\\programs_to_target_by_name.txt");
-            var runFile = EnvironmentVars.STAGE2 + "junkware.bat";
+            string[] junkWare = File.ReadAllLines(EnvironmentVars.GLOBALREP + "oem\\programs_to_target_by_name.txt");
+            var runFile = EnvironmentVars.GLOBALREP + "junkware.bat";
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             start.UseShellExecute = false;
@@ -207,7 +203,7 @@ namespace RepairTool
             {
                 Logger.LogInfo("Attempting Windows Apps removal...", w);
             }
-            var runFileFirst = EnvironmentVars.STAGE2 + "metro\\metro_3rd_party_modern_apps_to_target_by_name.ps1";
+            var runFileFirst = EnvironmentVars.GLOBALREP + "metro\\metro_3rd_party_modern_apps_to_target_by_name.ps1";
             var starterFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
@@ -230,7 +226,7 @@ namespace RepairTool
                     Logger.LogInfo(output, w);
                 }
             }
-            var runFileLast = EnvironmentVars.STAGE2 + "metro\\metro_Microsoft_modern_apps_to_target_by_name.ps1";
+            var runFileLast = EnvironmentVars.GLOBALREP + "metro\\metro_Microsoft_modern_apps_to_target_by_name.ps1";
             // Prepare the process to run
             ProcessStartInfo end = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
@@ -267,10 +263,7 @@ namespace RepairTool
                 Logger.LogInfo("Prep complete...", w);
             }
 
-            if (b_SingleRun)
-                Menu.Start();
-            else
-                Menu.Start(); //TODO: move to what the next step is here.
+            TempCleaner.RunTasks(false);
         }
     }
 }

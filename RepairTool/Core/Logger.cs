@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace RepairTool
+namespace RepairTool.Core
 {
     public static class Logger
     {

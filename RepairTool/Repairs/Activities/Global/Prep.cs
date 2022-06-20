@@ -1,10 +1,11 @@
 ﻿using Microsoft.Win32;
+using RepairTool.Core;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace RepairTool
+namespace RepairTool.Repairs.Activities.Global
 {
     public static class Prep
     {
@@ -65,7 +66,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Restore point may not have been made, be cautious.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -91,7 +91,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-s -l " + EnvironmentVars.LOGDIR + "rawlogs\\xrkill.log -w " + EnvironmentVars.STAGE0 + "rkill\\rkill_process_whitelist.txt";
+            start.Arguments = "-s -l " + EnvironmentVars.RAWLOGDIR + "rkill.log -w " + EnvironmentVars.GLOBALREP + "rkill\\rkill_process_whitelist.txt";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -113,7 +113,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("RKill failed to run or was killed.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -140,7 +139,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-save=[software]=" + EnvironmentVars.LOGDIR + "rawlogs\\installed-programs-before.txt";
+            start.Arguments = "-save=[software]=" + EnvironmentVars.RAWLOGDIR + "installed-programs-before.txt";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -162,7 +161,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("System Programs were not logged", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -175,7 +173,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-create-filelist " + EnvironmentVars.LOGDIR + "rawlogs\\filelist-before.txt C:\\";
+            start.Arguments = "-create-filelist " + EnvironmentVars.RAWLOGDIR + "filelist-before.txt C:\\";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -197,7 +195,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("System file list was not logged.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -218,7 +215,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "product get identifyingnumber,name,version /all > " + EnvironmentVars.LOGDIR + "rawlogs\\wmic_dump.log";
+            start.Arguments = "product get identifyingnumber,name,version /all > " + EnvironmentVars.RAWLOGDIR + "wmic_dump.log";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -240,7 +237,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("GUID dump was not completed.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -261,7 +257,7 @@ namespace RepairTool
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "Get-AppxPackage -AllUsers | Select Name > " + EnvironmentVars.LOGDIR + "rawlogs\\metro_app_dump.log";
+            start.Arguments = "Get-AppxPackage -AllUsers | Select Name > " + EnvironmentVars.RAWLOGDIR + "metro_app_dump.log";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -283,7 +279,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Metro App Dump was not completed.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -321,7 +316,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Caffeine was not run or manually closed, this system may go to sleep during the scans.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -364,7 +358,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("ProcessKiller did not run correctly.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -407,7 +400,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("System Registry was not backed up.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -518,7 +510,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("Stinger failed to run correctly", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -536,7 +527,6 @@ namespace RepairTool
                 {
                     EnvironmentVars.WarningsDetected = true;
                     Logger.LogWarning("Stinger was skipped due to an issue with .NET 3.5 install.", w);
-                    CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                 }
             }
 
@@ -571,7 +561,6 @@ namespace RepairTool
                     {
                         EnvironmentVars.WarningsDetected = true;
                         Logger.LogWarning("TDSS Killer failed to run correctly.", w);
-                        CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     }
                 }
             }
@@ -583,12 +572,10 @@ namespace RepairTool
 
         private static void PrepComplete()
         {
-            CreateConf.UpdateConfiguration("Work State", "Prep", "true");
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Prep complete...", w);
             }
-            TempCleaner.RunTasks(false);
         }
     }
 }

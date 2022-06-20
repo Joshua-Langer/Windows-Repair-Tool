@@ -57,26 +57,38 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChoiceEngine.cs" />
-    <Compile Include="ConfReader.cs" />
-    <Compile Include="CreateConf.cs" />
+    <Compile Include="Admin\Activities\ArchiveLogs.cs" />
+    <Compile Include="Admin\Activities\ChangeDirectories.cs" />
+    <Compile Include="Admin\Activities\SystemUpdate.cs" />
+    <Compile Include="Admin\Activities\UpdateCompanyName.cs" />
+    <Compile Include="Admin\AdminMaintenance.cs" />
+    <Compile Include="Admin\Setup.cs" />
+    <Compile Include="Core\ConfReader.cs" />
+    <Compile Include="Core\CreateConf.cs" />
+    <Compile Include="Core\NetworkCheck.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EnvironmentVars.cs" />
-    <Compile Include="Logger.cs" />
-    <Compile Include="Menu.cs" />
-    <Compile Include="Prep.cs" />
-    <Compile Include="ResourceDownloader.cs" />
-    <Compile Include="SystemDebloat.cs" />
+    <Compile Include="Core\Logger.cs" />
+    <Compile Include="Repairs\Activities\Global\EmailLog.cs" />
+    <Compile Include="Repairs\Activities\Global\Prep.cs" />
+    <Compile Include="Repairs\Activities\Global\RebootSystem.cs" />
+    <Compile Include="Repairs\Activities\Global\SystemUpdater.cs" />
+    <Compile Include="Repairs\Activities\Global\SystemWrapUp.cs" />
+    <Compile Include="Repairs\Activities\OS\InternetFixes.cs" />
+    <Compile Include="Repairs\Activities\OS\SystemRepair.cs" />
+    <Compile Include="Repairs\Activities\Setup\Installer.cs" />
+    <Compile Include="Repairs\Activities\Setup\SystemPrep.cs" />
+    <Compile Include="Repairs\UserMenu.cs" />
+    <Compile Include="Core\SystemCheck.cs" />
+    <Compile Include="Repairs\Activities\Global\SystemDebloat.cs" />
     <Compile Include="Systems.cs" />
-    <Compile Include="Initializer.cs" />
-    <Compile Include="PrerunChecks.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TempCleaner.cs" />
-    <Compile Include="UsageAgreement.cs" />
+    <Compile Include="Repairs\Activities\Global\TempCleaner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -96,6 +108,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repairs\Activities\Malware\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
