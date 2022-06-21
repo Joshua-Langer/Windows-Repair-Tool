@@ -22,9 +22,9 @@ namespace RepairTool.Core
                         return ip.ToString() == EnvironmentVars.IPADDR;
                     }
                 }
-            } catch (Exception e)
+            } catch
             {
-
+                
             }
             throw new Exception("Server is not online..." + " Exit Code: " + EnvironmentVars.SERVEROFFLINE);
         }
