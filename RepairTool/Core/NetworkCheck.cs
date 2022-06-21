@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,20 @@ namespace RepairTool.Core
 
             }
             throw new Exception("Server is not online..." + " Exit Code: " + EnvironmentVars.SERVEROFFLINE);
+        }
+
+        public static bool CheckInternet()
+        {
+            Ping p = new Ping();
+            try
+            {
+                PingReply reply = p.Send(EnvironmentVars.HOST, 3000);
+                if (reply.Status == IPStatus.Success)
+                    return true;
+            }
+            catch { }
+
+            return false;
         }
     }
 }

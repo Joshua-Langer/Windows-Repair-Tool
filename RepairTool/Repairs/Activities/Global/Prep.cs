@@ -78,7 +78,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void RKill()
         {
-            var runFile = EnvironmentVars.STAGE0 + "rkill\\solitaire.exe";
+            var runFile = EnvironmentVars.GLOBALREP + "rkill\\solitaire.exe";
             Console.Title = "Windows Repair Tool - Prep - RKill " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -127,9 +127,9 @@ namespace RepairTool.Repairs.Activities.Global
             string runFile;
 
             if (Environment.Is64BitOperatingSystem)
-                runFile = EnvironmentVars.STAGE0 + "log_tools\\siv\\siv32x.exe";
+                runFile = EnvironmentVars.GLOBALREP + "log_tools\\siv\\siv32x.exe";
             else
-                runFile = EnvironmentVars.STAGE0 + "log_tools\\siv\\siv64x.exe";
+                runFile = EnvironmentVars.GLOBALREP + "log_tools\\siv\\siv64x.exe";
 
             Console.Title = "Windows Repair Tool - Prep - Analyze System State " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
@@ -168,7 +168,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void FileList()
         {
-            var runFile = EnvironmentVars.STAGE0 + "log_tools\\everything\\everything.exe";
+            var runFile = EnvironmentVars.GLOBALREP + "log_tools\\everything\\everything.exe";
 
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
@@ -290,7 +290,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void NoSleep()
         {
-            var runFile = EnvironmentVars.STAGE0 + "caffeine\\caffeine.exe";
+            var runFile = EnvironmentVars.GLOBALREP + "caffeine\\caffeine.exe";
             Console.Title = "Windows Repair Tool - Prep - DisableSleepandScreensaver " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -327,7 +327,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void ProcessKiller()
         {
-            var runFile = EnvironmentVars.STAGE0 + "\\processkiller\\processkiller.exe";
+            var runFile = EnvironmentVars.GLOBALREP + "processkiller\\processkiller.exe";
             Console.Title = "Windows Repair Tool - Prep - ProcessKiller " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -369,7 +369,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void RegBack()
         {
-            var runFile = EnvironmentVars.STAGE0 + "backup_registry\\erunt.exe";
+            var runFile = EnvironmentVars.GLOBALREP + "backup_registry\\erunt.exe";
             Console.Title = "Windows Repair Tool - Prep - Registry Backup " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -480,7 +480,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void Stinger()
         {
-            var runFile = EnvironmentVars.STAGE0 + "\\mcafee_stinger\\stinger32.exe";
+            var runFile = EnvironmentVars.GLOBALREP + "mcafee_stinger\\stinger32.exe";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Running McAfee Stinger...", w);
@@ -530,7 +530,7 @@ namespace RepairTool.Repairs.Activities.Global
                 }
             }
 
-            var runFile = EnvironmentVars.STAGE0 + "tdss_killer\\TDSSKiller.exe";
+            var runFile = EnvironmentVars.GLOBALREP + "tdss_killer\\TDSSKiller.exe";
             Console.Title = "Windows Repair Tool - Prep - TDSS Killer " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {

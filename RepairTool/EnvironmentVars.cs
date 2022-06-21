@@ -46,6 +46,7 @@ namespace RepairTool
         public const string HOST = "www.google.com";
 
         // Additional strings used throughout the program - shown as statics for file paths as the Current Directory may change
+        public static string ROOTDIR = "\\" + IPADDR;
         public static string BINDIR = "";
         public static string LOGDIR = BINDIR +"\\logs\\";
         public static string RAWLOGDIR = BINDIR + "";
@@ -72,15 +73,6 @@ namespace RepairTool
         
 
         // Working directories for each phase of repair
-        public static string STAGE0 = RESDIR + "Prep\\";
-        public static string STAGE1 = RESDIR + "TempClean\\";
-        public static string STAGE2 = RESDIR + "Debloat\\";
-        public static string STAGE3 = RESDIR + "Disinfect\\";
-        public static string STAGE4 = RESDIR + "OSRepair\\";
-        public static string STAGE5 = RESDIR + "OSPatch\\";
-        public static string STAGE6 = RESDIR + "Optimize\\";
-        public static string STAGE7 = RESDIR + "WrapUp\\";
-
         public static string WINREP = RESDIR + "WindowsRepair\\";
         public static string WINMAL = RESDIR + "MalwareScans\\";
         public static string INITSETUP = RESDIR + "InitialSetup\\";

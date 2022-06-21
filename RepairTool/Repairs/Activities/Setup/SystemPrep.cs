@@ -6,8 +6,9 @@ namespace RepairTool.Repairs.Activities.Setup
     {
         public static void BeginPrep()
         {
-
-            SystemDebloat.RunTasks(false);
+            Installer.GoogleChrome();
+            Installer.InstallAdobe();
+            GlobalTaskRunner.Run();
         }
     }
 }

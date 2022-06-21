@@ -11,6 +11,10 @@ namespace RepairTool.Repairs.Activities.OS
             Prep.RunTasks();
             InternetFixes.WinsockReset();
             InternetFixes.RepairDNS();
+            Cleanup.CleanupMsi();
+            Cleanup.RepairFileExtensions();
+            Cleanup.DiskCheck();
+            GlobalTaskRunner.Run();
         }
     }
 }

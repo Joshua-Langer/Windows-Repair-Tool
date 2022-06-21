@@ -16,6 +16,7 @@ namespace RepairTool.Core
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("Checking for configuration file on server... please wait...");
+            EnvironmentVars.BINDIR = EnvironmentVars.ROOTDIR;
             System.Threading.Thread.Sleep(1500);
             CheckConfFile();
         }

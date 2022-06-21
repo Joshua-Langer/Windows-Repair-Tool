@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using RepairTool.Repairs.Activities.Malware;
 
 namespace RepairTool.Repairs
 {
@@ -57,7 +58,7 @@ namespace RepairTool.Repairs
                     SystemRepair.BeginRepair();
                     break;
                 case 2:
-
+                    MalwareScans.RunScans();
                     break;
                 case 3:
                     SystemPrep.BeginPrep();

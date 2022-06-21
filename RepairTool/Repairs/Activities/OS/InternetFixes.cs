@@ -1,5 +1,4 @@
 ﻿using RepairTool.Core;
-using RepairTool.Repairs.Activities.Global;
 using System.Diagnostics;
 using System.IO;
 
@@ -91,8 +90,6 @@ namespace RepairTool.Repairs.Activities.OS
 			{
 				Logger.LogInfo("DNS has been reset", w);
 			}
-
-			SystemDebloat.RunTasks(false);
-		}
+        }
     }
 }

@@ -51,7 +51,6 @@ namespace RepairTool.Repairs.Activities.Global
 			{
 				Logger.LogInfo("Done.", w);
 			}
-			ComponentStoreChecker();
         }
 
         public static void ComponentStoreChecker()
@@ -94,7 +93,6 @@ namespace RepairTool.Repairs.Activities.Global
 			{
 				Logger.LogInfo("Done.", w);
 			}
-			SystemFileRepair();
         }
 
         public static void SystemFileRepair()
@@ -139,7 +137,6 @@ namespace RepairTool.Repairs.Activities.Global
 			{
 				Logger.LogInfo("Done.", w);
 			}
-			ComponentStoreRepair();
         }
 
         public static void ComponentStoreRepair()
@@ -190,8 +187,6 @@ namespace RepairTool.Repairs.Activities.Global
 					Logger.LogInfo("A system reboot is required... System will reboot once repairs are completed.", w);
 				}
 			}
-			// TO EMAIL LOG
-			EmailLog.Send();
 		}
     }
 }
