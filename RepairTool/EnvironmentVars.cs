@@ -50,7 +50,7 @@ namespace RepairTool
         public static string IPADDR = "";
         public static string SETUPLOG = Directory.GetCurrentDirectory() + "\\setuplog\\";
         public static string SYSTEMLOGS = BINDIR + "\\SystemLogs\\";
-        public static string APPVERSION = "v.0.3.0 Build 145 - " + "Test";
+        public static string APPVERSION = "v.0.3.1 Build 157 - " + "Test";
 
         // Exit Codes
         public const int NORMALEXITCODE = 0;

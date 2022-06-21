@@ -121,6 +121,7 @@ namespace RepairTool.Admin
             }
         }
 
+        // TODO: this is broken, Issue #1
         private static void InstallResources()
         {
             var flashLocation = Directory.GetCurrentDirectory() + "\\resources\\";

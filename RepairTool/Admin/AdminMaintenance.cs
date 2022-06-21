@@ -7,6 +7,8 @@ namespace RepairTool.Admin
 {
     public static class AdminMaintenance
     {
+        // TODO: Issue #4 here, can't access this menu, get a crash.
+        // Line 61 is the crash
         public static void AdminMenu()
         {
             Console.Clear();

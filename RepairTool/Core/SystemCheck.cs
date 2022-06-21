@@ -1,6 +1,7 @@
 ﻿using RepairTool.Admin;
 using RepairTool.Repairs;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace RepairTool.Core
@@ -20,26 +21,7 @@ namespace RepairTool.Core
 
         private static void CheckSystem()
         {
-            Console.WriteLine("Is this a repair?");
-            Console.WriteLine("Enter 'y' or 'n'");
-            var answer = Console.Read();
-            if (answer != 'y')
-            {
-                EnvironmentVars.ApplicationOnServer = true;
-
-                Console.WriteLine("Checking for configuration file on server... please wait...");
-                System.Threading.Thread.Sleep(1500);
-                CheckConfFile();
-            }
-            else
-            {
-                EnvironmentVars.IPADDR = InputServerAddress();
-                EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR;
-                ResetVarsForDirs();
-                Console.WriteLine("Checking for configuration file on server... please wait...");
-                System.Threading.Thread.Sleep(1500);
-                CheckConfFile();
-            }
+            
         }
 
         private static void ResetVarsForDirs()
@@ -52,12 +34,6 @@ namespace RepairTool.Core
             EnvironmentVars.WINMAL = EnvironmentVars.RESDIR + "MalwareScans\\";
             EnvironmentVars.INITSETUP = EnvironmentVars.RESDIR + "InitialSetup\\";
             EnvironmentVars.GLOBALREP = EnvironmentVars.RESDIR + "GlobalRepairs\\";
-        }
-
-        private static string InputServerAddress()
-        {
-            Console.WriteLine("Input the server IP Address that you are connecting to: ");
-            return Console.ReadLine();
         }
 
         private static bool CheckForExistingConf()
@@ -79,8 +55,6 @@ namespace RepairTool.Core
             {
                 ConfReader.ConfigRead(EnvironmentVars.CONFFILE);
                 Console.WriteLine("Configuration file read and applied...System Starting");
-                //Console.WriteLine(EnvironmentVars.IPADDR);
-                //Console.WriteLine(NetworkCheck.CurrentIPAddress());
                 System.Threading.Thread.Sleep(1500);
                 if (NetworkCheck.CurrentIPAddress() == EnvironmentVars.IPADDR)
                 {

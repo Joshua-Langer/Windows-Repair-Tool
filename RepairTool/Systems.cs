@@ -21,7 +21,7 @@ namespace RepairTool
         /// <returns></returns>
         public static string WindowsVersionDetection()
         {
-            return Environment.OSVersion.VersionString;
+            return Environment.OSVersion.Version.ToString();
         }
 
         /// <summary>
