@@ -13,18 +13,9 @@ namespace RepairTool
         public static bool SkipCheckUpdate = false;
         public static bool DebugMode = false;
         public static bool RebootRequired = false;
-        
-        // Boolean values for stage completion
-        public static bool InitializeCompleted = false;
-        public static bool PrepCompleted = false;
-        public static bool TempCompleted = false;
-        public static bool DisinfectCompleted = false;
-        public static bool DebloatCompleted = false;
-        public static bool OSRepairCompleted = false;
-        public static bool OSPatchCompleted = false;
-        public static bool OptimizeCompleted = false;
-        public static bool WrapUpCompleted = false;
 
+
+        public static bool ApplicationOnServer = false;
 
         // Ints for space values
         public static int FreeSpaceAfter = 0;

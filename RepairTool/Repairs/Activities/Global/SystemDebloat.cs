@@ -256,14 +256,11 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void DebloatCompleted()
         {
-            EnvironmentVars.DebloatCompleted = true;
-            CreateConf.UpdateConfiguration("Work State", "Debloat", EnvironmentVars.DebloatCompleted.ToString());
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Prep complete...", w);
             }
 
-            TempCleaner.RunTasks(false);
         }
     }
 }

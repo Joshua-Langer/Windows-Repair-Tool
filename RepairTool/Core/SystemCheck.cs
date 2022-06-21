@@ -15,9 +15,49 @@ namespace RepairTool.Core
             Console.WriteLine(EnvironmentVars.APPVERSION);
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("Checking for configuration file on server... please wait...");
-            System.Threading.Thread.Sleep(1500);
-            CheckConfFile();
+            CheckSystem();
+        }
+
+        private static void CheckSystem()
+        {
+            Console.WriteLine("Is this a repair?");
+            Console.WriteLine("Enter 'y' or 'n'");
+            var answer = Console.Read();
+            if (answer != 'y')
+            {
+                EnvironmentVars.ApplicationOnServer = true;
+
+                Console.WriteLine("Checking for configuration file on server... please wait...");
+                System.Threading.Thread.Sleep(1500);
+                CheckConfFile();
+            }
+            else
+            {
+                EnvironmentVars.IPADDR = InputServerAddress();
+                EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR;
+                ResetVarsForDirs();
+                Console.WriteLine("Checking for configuration file on server... please wait...");
+                System.Threading.Thread.Sleep(1500);
+                CheckConfFile();
+            }
+        }
+
+        private static void ResetVarsForDirs()
+        {
+            EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR + "\\logs\\";
+            EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
+            EnvironmentVars.CONFDIR = EnvironmentVars.BINDIR + "\\configurations\\";
+            EnvironmentVars.CONFFILE = EnvironmentVars.CONFDIR + "companyconfiguration.ini";
+            EnvironmentVars.WINREP = EnvironmentVars.RESDIR + "WindowsRepair\\";
+            EnvironmentVars.WINMAL = EnvironmentVars.RESDIR + "MalwareScans\\";
+            EnvironmentVars.INITSETUP = EnvironmentVars.RESDIR + "InitialSetup\\";
+            EnvironmentVars.GLOBALREP = EnvironmentVars.RESDIR + "GlobalRepairs\\";
+        }
+
+        private static string InputServerAddress()
+        {
+            Console.WriteLine("Input the server IP Address that you are connecting to: ");
+            return Console.ReadLine();
         }
 
         private static bool CheckForExistingConf()
@@ -39,7 +79,7 @@ namespace RepairTool.Core
             {
                 ConfReader.ConfigRead(EnvironmentVars.CONFFILE);
                 Console.WriteLine("Configuration file read and applied...System Starting");
-                Console.WriteLine(EnvironmentVars.IPADDR);
+                //Console.WriteLine(EnvironmentVars.IPADDR);
                 //Console.WriteLine(NetworkCheck.CurrentIPAddress());
                 System.Threading.Thread.Sleep(1500);
                 if (NetworkCheck.CurrentIPAddress() == EnvironmentVars.IPADDR)
