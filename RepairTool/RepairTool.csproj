@@ -87,6 +87,8 @@
     <Compile Include="Repairs\Activities\OS\InternetFixes.cs" />
     <Compile Include="Repairs\Activities\OS\SystemRepair.cs" />
     <Compile Include="Repairs\Activities\Setup\Installer.cs" />
+    <Compile Include="Repairs\Activities\Setup\ManagedCustomer.cs" />
+    <Compile Include="Repairs\Activities\Setup\SetupMenu.cs" />
     <Compile Include="Repairs\Activities\Setup\SystemPrep.cs" />
     <Compile Include="Repairs\UserMenu.cs" />
     <Compile Include="Core\SystemCheck.cs" />
@@ -115,9 +117,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Repairs\Activities\Malware\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
