@@ -16,7 +16,6 @@ namespace RepairTool.Core
             Console.WriteLine("");
             Console.WriteLine("");
             Console.WriteLine("Checking for configuration file on server... please wait...");
-            EnvironmentVars.BINDIR = EnvironmentVars.ROOTDIR;
             System.Threading.Thread.Sleep(1500);
             CheckConfFile();
         }
@@ -40,8 +39,10 @@ namespace RepairTool.Core
             {
                 ConfReader.ConfigRead(EnvironmentVars.CONFFILE);
                 Console.WriteLine("Configuration file read and applied...System Starting");
+                Console.WriteLine(EnvironmentVars.IPADDR);
+                //Console.WriteLine(NetworkCheck.CurrentIPAddress());
                 System.Threading.Thread.Sleep(1500);
-                if (NetworkCheck.Network())
+                if (NetworkCheck.CurrentIPAddress() == EnvironmentVars.IPADDR)
                 {
                     // Go to the Admin screen
                     AdminMaintenance.AdminMenu();

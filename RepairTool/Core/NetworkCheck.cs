@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,6 +28,26 @@ namespace RepairTool.Core
                 
             }
             throw new Exception("Server is not online..." + " Exit Code: " + EnvironmentVars.SERVEROFFLINE);
+        }
+
+        public static string CurrentIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            try
+            {
+                foreach (var ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return ip.ToString();
+                    }
+                }
+            }
+            catch
+            {
+                
+            }
+            throw new Exception("No IP Detected..." + " Exit Code: " + EnvironmentVars.SERVEROFFLINE);
         }
 
         public static bool CheckInternet()

@@ -47,7 +47,7 @@ namespace RepairTool
 
         // Additional strings used throughout the program - shown as statics for file paths as the Current Directory may change
         public static string ROOTDIR = "\\" + IPADDR;
-        public static string BINDIR = "";
+        public static string BINDIR = "C:\\wrtbin";
         public static string LOGDIR = BINDIR +"\\logs\\";
         public static string RAWLOGDIR = BINDIR + "";
         public static string RESDIR = BINDIR + "\\resources\\";
@@ -59,7 +59,7 @@ namespace RepairTool
         public static string IPADDR = "";
         public static string SETUPLOG = Directory.GetCurrentDirectory() + "\\setuplog\\";
         public static string SYSTEMLOGS = BINDIR + "\\SystemLogs\\";
-        public static string APPVERSION = "v.0.3.0 Build 143 - " + "Test";
+        public static string APPVERSION = "v.0.3.0 Build 145 - " + "Test";
 
         // Exit Codes
         public const int NORMALEXITCODE = 0;

@@ -25,9 +25,8 @@ namespace RepairTool.Admin
             Console.WriteLine("***********************************************************");
             Console.WriteLine("**************************SETUP****************************");
             Console.WriteLine("***********************************************************");
-            Console.WriteLine("Enter a local directory for Logging and Configurations: ");
-            Console.WriteLine("E.g. C:\\bin");
-            EnvironmentVars.BINDIR = Console.ReadLine();
+            Console.WriteLine("System installing to C:\\wrtbin\\");
+            ResetVarsForDirs();
             try
             {
                 Console.WriteLine("Creating Bin Directory...");
@@ -51,6 +50,18 @@ namespace RepairTool.Admin
             }
         }
 
+        private static void ResetVarsForDirs()
+        {
+            EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR +"\\logs\\";
+            EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
+            EnvironmentVars.CONFDIR = EnvironmentVars.BINDIR + "\\configurations\\";
+            EnvironmentVars.CONFFILE = EnvironmentVars.CONFDIR + "companyconfiguration.ini";
+            EnvironmentVars.WINREP = EnvironmentVars.RESDIR + "WindowsRepair\\";
+            EnvironmentVars.WINMAL = EnvironmentVars.RESDIR + "MalwareScans\\";
+            EnvironmentVars.INITSETUP = EnvironmentVars.RESDIR + "InitialSetup\\";
+            EnvironmentVars.GLOBALREP = EnvironmentVars.RESDIR + "GlobalRepairs\\";
+        }
+
         private static void CreateCompany()
         {
             Console.WriteLine("***********************************************************");
@@ -65,6 +76,7 @@ namespace RepairTool.Admin
             try
             {
                 CreateConf.NewConfiguration("Company", "Company Name", EnvironmentVars.COMPANYNAME);
+                CreateConf.NewConfiguration("Application", "Version", EnvironmentVars.APPVERSION);
                 CreateConf.NewConfiguration("System", "Bin Directory", EnvironmentVars.BINDIR);
                 CreateConf.NewConfiguration("System", "Log Directory", EnvironmentVars.LOGDIR);
                 CreateConf.NewConfiguration("System", "Resources Directory", EnvironmentVars.RESDIR);
@@ -79,9 +91,12 @@ namespace RepairTool.Admin
             {
                 using (StreamWriter w = File.AppendText(_setupLog))
                 {
-                    Logger.LogInfo("Failed to create configuration file..." + e.Message + " Exit Code: " + EnvironmentVars.SETUPFAILEDTOCREATECONF, w);
+                    Logger.LogError("Failed to create configuration file..." + e.Message + " Exit Code: " + EnvironmentVars.SETUPFAILEDTOCREATECONF, w);
                 }
             }
+            
+            System.Threading.Thread.Sleep(1500);
+            Environment.Exit(EnvironmentVars.INITIALSETUPCOMPLETE);
         }
 
         private static void CreateResourceDirectories()
@@ -127,8 +142,6 @@ namespace RepairTool.Admin
                     Logger.LogInfo("Setup Failed to install resources..." + e.Message + " Exit Code: " + EnvironmentVars.SETUPFAILEDTOINSTALLRESOURCE, w);
                 }
             }
-            System.Threading.Thread.Sleep(1500);
-            Environment.Exit(EnvironmentVars.INITIALSETUPCOMPLETE);
         }
 
         private static string GetServerAddress()

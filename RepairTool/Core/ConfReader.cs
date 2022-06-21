@@ -62,6 +62,25 @@ namespace RepairTool.Core
                                 break;
                         }
                     }
+                    else if (sectionName == "Network")
+                    {
+                        switch (keyName)
+                        {
+                            case "IP Address":
+                                EnvironmentVars.IPADDR = keyValue;
+                                break;
+                        }
+                    }
+                    
+                    else if (sectionName == "Application")
+                    {
+                        switch (keyName)
+                        {
+                            case "Version":
+                                EnvironmentVars.APPVERSION = keyValue;
+                                break;
+                        }
+                    }
                 }
             }
         }
