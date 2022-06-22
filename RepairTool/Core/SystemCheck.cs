@@ -13,7 +13,7 @@ namespace RepairTool.Core
             Console.WriteLine("Windows Repair Tool");
             Console.WriteLine("Written by: Joshua Langer");
             Console.WriteLine("Built in 2022");
-            Console.WriteLine(EnvironmentVars.APPVERSION);
+            Console.WriteLine("Version: " + EnvironmentVars.APPVERSION);
             Console.WriteLine("");
             Console.WriteLine("");
             CheckSystem();
@@ -39,6 +39,7 @@ namespace RepairTool.Core
         {
             EnvironmentVars.BINDIR = "C:\\wrtbin";
             EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR + "\\logs\\";
+            EnvironmentVars.RAWLOGDIR = EnvironmentVars.LOGDIR + "RawLogs\\";
             EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
             EnvironmentVars.CONFDIR = EnvironmentVars.BINDIR + "\\configurations\\";
             EnvironmentVars.CONFFILE = EnvironmentVars.CONFDIR + "companyconfiguration.ini";
@@ -46,12 +47,14 @@ namespace RepairTool.Core
             EnvironmentVars.WINMAL = EnvironmentVars.RESDIR + "MalwareScans\\";
             EnvironmentVars.INITSETUP = EnvironmentVars.RESDIR + "InitialSetup\\";
             EnvironmentVars.GLOBALREP = EnvironmentVars.RESDIR + "GlobalRepairs\\";
+            EnvironmentVars.SYSTEMLOGS = EnvironmentVars.BINDIR + "\\SystemLogs\\wrtlogger.log";
         }
 
-        private static void SetVarsForRepairDirs()
+        public static void SetVarsForRepairDirs()
         {
-            EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR;
+            EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR + "\\Repair";
             EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR + "\\logs\\";
+            EnvironmentVars.RAWLOGDIR = EnvironmentVars.LOGDIR + "RawLogs\\";
             EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
             EnvironmentVars.CONFDIR = EnvironmentVars.BINDIR + "\\configurations\\";
             EnvironmentVars.CONFFILE = EnvironmentVars.CONFDIR + "companyconfiguration.ini";
@@ -59,6 +62,7 @@ namespace RepairTool.Core
             EnvironmentVars.WINMAL = EnvironmentVars.RESDIR + "MalwareScans\\";
             EnvironmentVars.INITSETUP = EnvironmentVars.RESDIR + "InitialSetup\\";
             EnvironmentVars.GLOBALREP = EnvironmentVars.RESDIR + "GlobalRepairs\\";
+            EnvironmentVars.SYSTEMLOGS = EnvironmentVars.BINDIR + "\\SystemLogs\\wrtlogger.log";
         }
 
         private static bool CheckForExistingConf()

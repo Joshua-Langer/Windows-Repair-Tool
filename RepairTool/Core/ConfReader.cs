@@ -26,24 +26,6 @@ namespace RepairTool.Core
                                 break;
                         }
                     }
-                    else if (sectionName == "System")
-                    {
-                        switch (keyName)
-                        {
-                            case "Bin Directory":
-                                EnvironmentVars.BINDIR = keyValue;
-                                break;
-                            case "Log Directory":
-                                EnvironmentVars.LOGDIR = keyValue;
-                                break;
-                            case "Resources Directory":
-                                EnvironmentVars.RESDIR = keyValue;
-                                break;
-                            case "Configuration Directory":
-                                EnvironmentVars.CONFDIR = keyValue;
-                                break;
-                        }
-                    }
                     else if (sectionName == "Resource")
                     {
                         switch (keyName)
@@ -68,16 +50,6 @@ namespace RepairTool.Core
                         {
                             case "IP Address":
                                 EnvironmentVars.IPADDR = keyValue;
-                                break;
-                        }
-                    }
-                    
-                    else if (sectionName == "Application")
-                    {
-                        switch (keyName)
-                        {
-                            case "Version":
-                                EnvironmentVars.APPVERSION = keyValue;
                                 break;
                         }
                     }

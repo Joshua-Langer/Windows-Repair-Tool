@@ -16,18 +16,18 @@ namespace RepairTool.Repairs
         public static void Start()
         {
             Console.Clear();
+            SystemCheck.SetVarsForRepairDirs();
             var serviceOrderNumber = "";
 
             Console.WriteLine("Please enter your service order number");
             Console.WriteLine("");
             serviceOrderNumber = Console.ReadLine();
 
-            var thisRepairLog = EnvironmentVars.LOGFILE + serviceOrderNumber + ".log";
-            var rawRepairDir = EnvironmentVars.RAWLOGDIR + "\\" + serviceOrderNumber + "\\";
+            var rawRepairDir = EnvironmentVars.RAWLOGDIR + serviceOrderNumber + "\\";
+            Directory.CreateDirectory(rawRepairDir);
+            File.Create(EnvironmentVars.LOGDIR + serviceOrderNumber + ".log").Close(); ;
 
-            File.Create(thisRepairLog);
-
-            EnvironmentVars.LOGFILE = thisRepairLog;
+            EnvironmentVars.LOGFILE = EnvironmentVars.LOGDIR + serviceOrderNumber + ".log";
             EnvironmentVars.RAWLOGDIR = rawRepairDir;
             Menu();
         }
@@ -61,13 +61,9 @@ namespace RepairTool.Repairs
                     MalwareScans.RunScans();
                     break;
                 case 3:
-                    SystemPrep.BeginPrep();
+                    SetupMenu.Menu();
                     break;
                 case 0:
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.SYSTEMLOGS))
-                    {
-                        Logger.LogInfo("Application is closing cleanly..." + EnvironmentVars.NORMALEXITCODE, w);
-                    }
                     Environment.Exit(EnvironmentVars.NORMALEXITCODE);
                     break;
             }

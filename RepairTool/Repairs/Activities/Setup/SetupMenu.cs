@@ -16,7 +16,7 @@ namespace RepairTool.Repairs.Activities.Setup
             Console.Title = "Setup and Provision Tool - " + EnvironmentVars.APPVERSION;
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.Black;
-            Console.WriteLine(EnvironmentVars.COMPANYNAME + "            Setup and Provision Tool " + EnvironmentVars.APPVERSION);
+            Console.WriteLine(EnvironmentVars.COMPANYNAME + "  Setup and Provision Tool " + EnvironmentVars.APPVERSION);
             Console.WriteLine("Please enter a selection for your phase of repair");
             Console.WriteLine("");
             Console.WriteLine("");
@@ -38,10 +38,6 @@ namespace RepairTool.Repairs.Activities.Setup
                     SystemPrep.BeginPrep();
                     break;
                 case 0:
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.SYSTEMLOGS))
-                    {
-                        Logger.LogInfo("Application is closing cleanly..." + EnvironmentVars.NORMALEXITCODE, w);
-                    }
                     Environment.Exit(EnvironmentVars.NORMALEXITCODE);
                     break;
             }

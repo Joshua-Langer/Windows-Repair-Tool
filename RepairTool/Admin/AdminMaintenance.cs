@@ -34,10 +34,12 @@ namespace RepairTool.Admin
             {
                 case 1:
                     Console.WriteLine("Updates are not yet implemented");
+                    System.Threading.Thread.Sleep(3000);
                     AdminMenu();
                     break;
                 case 2:
                     Console.WriteLine("Updating your working directories is not yet implemented");
+                    System.Threading.Thread.Sleep(3000);
                     AdminMenu();
                     break;
                 case 3:
@@ -47,10 +49,6 @@ namespace RepairTool.Admin
                     ArchiveLogs.ZipCurrentLogs();
                     break;
                 case 0:
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.SYSTEMLOGS))
-                    {
-                        Logger.LogInfo("Application is closing cleanly..." + EnvironmentVars.NORMALEXITCODE, w);
-                    }
                     Environment.Exit(EnvironmentVars.NORMALEXITCODE);
                     break;
             }

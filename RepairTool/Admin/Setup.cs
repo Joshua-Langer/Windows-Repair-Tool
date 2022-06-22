@@ -13,6 +13,7 @@ namespace RepairTool.Admin
         {
             Console.Title = "Repair Tool - Initial Setup " + EnvironmentVars.APPVERSION;
             CreateLogDirectory();
+            File.Create(_setupLog);
             CreateCompany();
             EnvironmentVars.IPADDR = GetServerAddress();
             CreateResourceDirectories();
@@ -53,6 +54,7 @@ namespace RepairTool.Admin
         private static void ResetVarsForDirs()
         {
             EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR +"\\logs\\";
+            EnvironmentVars.RAWLOGDIR = EnvironmentVars.LOGDIR + "RawLogs\\";
             EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
             EnvironmentVars.CONFDIR = EnvironmentVars.BINDIR + "\\configurations\\";
             EnvironmentVars.CONFFILE = EnvironmentVars.CONFDIR + "companyconfiguration.ini";
