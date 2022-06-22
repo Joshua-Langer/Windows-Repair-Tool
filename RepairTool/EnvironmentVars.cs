@@ -46,11 +46,11 @@ namespace RepairTool
         public static string LOGFILE = LOGDIR + "";
         public static string CONFFILE = CONFDIR + "companyconfiguration.ini";
         public static string ARCHIVE = BINDIR + "\\Archives\\";
-        public static string COMPANYNAME = "";
-        public static string IPADDR = "";
+        public static string COMPANYNAME = "YWTT"; // Hardcode Company name for ease of use for customers/deployments
+        public static string IPADDR = "192.168.0.4"; // Hardcode IP for ease of use for customers/deployments
         public static string SETUPLOG = Directory.GetCurrentDirectory() + "\\setuplog\\";
         public static string SYSTEMLOGS = BINDIR + "\\SystemLogs\\";
-        public static string APPVERSION = "v.0.3.1 Build 157 - " + "Test";
+        public static string APPVERSION = "v.0.3.1 Build 160 - " + "Test";
 
         // Exit Codes
         public const int NORMALEXITCODE = 0;

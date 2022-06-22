@@ -21,11 +21,36 @@ namespace RepairTool.Core
 
         private static void CheckSystem()
         {
-            
+            if (EnvironmentVars.IPADDR == NetworkCheck.CurrentIPAddress())
+            {
+                SetVarsForServerDirs();
+                System.Threading.Thread.Sleep(500);
+                CheckConfFile();
+            }
+            else
+            {
+                SetVarsForRepairDirs();
+                System.Threading.Thread.Sleep(500);
+                CheckConfFile();
+            }
         }
 
-        private static void ResetVarsForDirs()
+        private static void SetVarsForServerDirs()
         {
+            EnvironmentVars.BINDIR = "C:\\wrtbin";
+            EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR + "\\logs\\";
+            EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
+            EnvironmentVars.CONFDIR = EnvironmentVars.BINDIR + "\\configurations\\";
+            EnvironmentVars.CONFFILE = EnvironmentVars.CONFDIR + "companyconfiguration.ini";
+            EnvironmentVars.WINREP = EnvironmentVars.RESDIR + "WindowsRepair\\";
+            EnvironmentVars.WINMAL = EnvironmentVars.RESDIR + "MalwareScans\\";
+            EnvironmentVars.INITSETUP = EnvironmentVars.RESDIR + "InitialSetup\\";
+            EnvironmentVars.GLOBALREP = EnvironmentVars.RESDIR + "GlobalRepairs\\";
+        }
+
+        private static void SetVarsForRepairDirs()
+        {
+            EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR;
             EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR + "\\logs\\";
             EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
             EnvironmentVars.CONFDIR = EnvironmentVars.BINDIR + "\\configurations\\";
