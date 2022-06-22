@@ -66,7 +66,7 @@ namespace RepairTool.Repairs.Activities.OS
             var runFile = EnvironmentVars.WINDIR + "system32\\fsutil.exe";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Repairing Component Store", w);
+                Logger.LogInfo("Scheduling run for chkdsk.", w);
             }
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
@@ -110,7 +110,7 @@ namespace RepairTool.Repairs.Activities.OS
             var runFile = EnvironmentVars.WINREP + "msi_cleanup\\msizap.exe";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Repairing Component Store", w);
+                Logger.LogInfo("Cleanup orphaned MSI files...", w);
             }
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
@@ -153,7 +153,7 @@ namespace RepairTool.Repairs.Activities.OS
             var runFile = EnvironmentVars.WINREP + "repair_file_extension\\repair_file_extensions.bat";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Repairing Component Store", w);
+                Logger.LogInfo("Repairing File Extensions...", w);
             }
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
