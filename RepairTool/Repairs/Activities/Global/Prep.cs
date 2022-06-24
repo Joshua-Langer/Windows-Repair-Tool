@@ -107,7 +107,7 @@ namespace RepairTool.Repairs.Activities.Global
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                if (exitCode == 0)
                 {
                     using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                     {
@@ -378,7 +378,7 @@ namespace RepairTool.Repairs.Activities.Global
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = EnvironmentVars.LOGDIR + "registry_backup /noconfirmdelete /noprogresswindow";
+            start.Arguments = EnvironmentVars.RAWLOGDIR + "registry_backup /noconfirmdelete /noprogresswindow";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
@@ -488,7 +488,7 @@ namespace RepairTool.Repairs.Activities.Global
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.LOGDIR + "rawlogs\\ --DELETE";
+            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.RAWLOGDIR + "rawlogs\\ --DELETE";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
