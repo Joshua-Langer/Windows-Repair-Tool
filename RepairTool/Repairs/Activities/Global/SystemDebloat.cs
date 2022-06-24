@@ -258,9 +258,8 @@ namespace RepairTool.Repairs.Activities.Global
         {
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Prep complete...", w);
+                Logger.LogInfo("Debloat complete...", w);
             }
-
         }
     }
 }

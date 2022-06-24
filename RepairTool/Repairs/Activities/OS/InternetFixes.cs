@@ -1,4 +1,5 @@
 ﻿using RepairTool.Core;
+using System;
 using System.Diagnostics;
 using System.IO;
 
@@ -8,6 +9,7 @@ namespace RepairTool.Repairs.Activities.OS
     {
         public static void WinsockReset()
         {
+			Console.Title = "Windows Repair Tool - Repair - Winsock Reset " + EnvironmentVars.APPVERSION;
 			var runFile = EnvironmentVars.WINDIR + "system32\\netsh.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
@@ -52,6 +54,7 @@ namespace RepairTool.Repairs.Activities.OS
 
 		public static void RepairDNS()
         {
+			Console.Title = "Windows Repair Tool - Repair - DNS Repair " + EnvironmentVars.APPVERSION;
 			var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{

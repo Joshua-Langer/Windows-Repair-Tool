@@ -15,6 +15,9 @@ namespace RepairTool
         public static bool SkipCheckUpdate = false;
         public static bool DebugMode = false;
         public static bool RebootRequired = false;
+        public static bool noConsoleWindow = true;
+        
+        public static ProcessWindowStyle processWindowHide = ProcessWindowStyle.Hidden;
 
 
         public static bool ApplicationOnServer = false;

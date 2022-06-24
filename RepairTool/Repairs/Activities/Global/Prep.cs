@@ -488,7 +488,7 @@ namespace RepairTool.Repairs.Activities.Global
             // Prepare the process to run
             ProcessStartInfo start = new ProcessStartInfo();
             // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.RAWLOGDIR + "rawlogs\\ --DELETE";
+            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.RAWLOGDIR + " --DELETE";
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?

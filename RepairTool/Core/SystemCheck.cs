@@ -17,6 +17,10 @@ namespace RepairTool.Core
             Console.WriteLine("");
             Console.WriteLine("");
             CheckSystem();
+#if DEBUG
+            EnvironmentVars.noConsoleWindow = false;
+            EnvironmentVars.processWindowHide = ProcessWindowStyle.Normal;
+#endif
         }
 
         private static void CheckSystem()

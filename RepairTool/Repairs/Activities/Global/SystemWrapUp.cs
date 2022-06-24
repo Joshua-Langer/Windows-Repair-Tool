@@ -13,6 +13,7 @@ namespace RepairTool.Repairs.Activities.Global
     {
         public static void SystemFileChecker()
         {
+			Console.Title = "Windows Repair Tool - Wrapup - System File Check - Verify " + EnvironmentVars.APPVERSION;
 			var runFile = EnvironmentVars.WINDIR + "system32\\sfc.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
@@ -55,6 +56,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         public static void ComponentStoreChecker()
         {
+			Console.Title = "Windows Repair Tool - Wrapup - Component Store Check - Verify " + EnvironmentVars.APPVERSION;
 			var runFile = EnvironmentVars.WINDIR + "system32\\dism.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
@@ -97,6 +99,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         public static void SystemFileRepair()
         {
+			Console.Title = "Windows Repair Tool - Wrapup - System File Check - Repair " + EnvironmentVars.APPVERSION;
 			var runFile = EnvironmentVars.WINDIR + "system32\\sfc.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
@@ -141,6 +144,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         public static void ComponentStoreRepair()
         {
+			Console.Title = "Windows Repair Tool - Wrapup - Component Store Check - Repair " + EnvironmentVars.APPVERSION;
 			var runFile = EnvironmentVars.WINDIR + "system32\\dism.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{

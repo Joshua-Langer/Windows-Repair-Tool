@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using System.IO;
 using RepairTool.Core;
@@ -8,6 +9,7 @@ namespace RepairTool.Repairs.Activities.OS
     {
         public static void DiskCheck()
         {
+            Console.Title = "Windows Repair Tool - Repair - Check Disk " + EnvironmentVars.APPVERSION;
             var runFile = EnvironmentVars.WINDIR + "system32\\chkdsk.exe";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -107,6 +109,7 @@ namespace RepairTool.Repairs.Activities.OS
 
         public static void CleanupMsi()
         {
+            Console.Title = "Windows Repair Tool - Repair - MSI Cleanup " + EnvironmentVars.APPVERSION;
             var runFile = EnvironmentVars.WINREP + "msi_cleanup\\msizap.exe";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -150,7 +153,8 @@ namespace RepairTool.Repairs.Activities.OS
 
         public static void RepairFileExtensions()
         {
-            var runFile = EnvironmentVars.WINREP + "repair_file_extension\\repair_file_extensions.bat";
+            Console.Title = "Windows Repair Tool - Repair - File Extension Repair " + EnvironmentVars.APPVERSION;
+            var runFile = EnvironmentVars.WINREP + "repair_file_extensions\\repair_file_extensions.bat";
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Repairing File Extensions...", w);

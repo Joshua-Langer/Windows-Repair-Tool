@@ -225,8 +225,8 @@ namespace RepairTool.Repairs.Activities.Global
             {
                 proc.WaitForExit();
 
-                // Hardcoded delay for 2 minutes
-                System.Threading.Thread.Sleep(120000);
+                // Hardcoded delay for 30 seconds
+                System.Threading.Thread.Sleep(30000);
 
                 // Retrieve the app's exit code
                 exitCode = proc.ExitCode;
@@ -432,8 +432,6 @@ namespace RepairTool.Repairs.Activities.Global
             {
                 Logger.LogInfo("Cleanup complete...", w);
             }
-
-            SystemUpdater.CheckForUpdates();
         }
     }
 }
