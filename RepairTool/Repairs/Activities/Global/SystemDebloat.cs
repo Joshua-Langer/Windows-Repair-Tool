@@ -50,8 +50,8 @@ namespace RepairTool.Repairs.Activities.Global
                             // Enter the executable to run, including the complete path
                             start.FileName = runFile;
                             // Do you want to show a console window?
-                            start.WindowStyle = ProcessWindowStyle.Hidden;
-                            start.CreateNoWindow = true;
+                            start.WindowStyle = EnvironmentVars.processWindowHide;
+                            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
                             int exitCode;
 
 
@@ -117,8 +117,8 @@ namespace RepairTool.Repairs.Activities.Global
                             // Enter the executable to run, including the complete path
                             start.FileName = runFile;
                             // Do you want to show a console window?
-                            start.WindowStyle = ProcessWindowStyle.Hidden;
-                            start.CreateNoWindow = true;
+                            start.WindowStyle = EnvironmentVars.processWindowHide;
+                            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
                             int exitCode;
 
 
@@ -175,8 +175,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Normal;
-            start.CreateNoWindow = false;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
 
 
             // Run the external process & wait for it to finish
@@ -212,8 +212,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = starterFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
 
             // Run the external process & wait for it to finish
             using (Process proc = Process.Start(start))
@@ -234,8 +234,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             end.FileName = starterFile;
             // Do you want to show a console window?
-            end.WindowStyle = ProcessWindowStyle.Hidden;
-            end.CreateNoWindow = true;
+            end.WindowStyle = EnvironmentVars.processWindowHide;
+            end.CreateNoWindow = EnvironmentVars.noConsoleWindow;
 
             // Run the external process & wait for it to finish
             using (Process proc = Process.Start(start))

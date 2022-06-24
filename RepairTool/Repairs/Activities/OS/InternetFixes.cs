@@ -25,8 +25,8 @@ namespace RepairTool.Repairs.Activities.OS
 			// Enter the executable to run, including the complete path
 			start.FileName = runFile;
 			// Do you want to show a console window?
-			start.WindowStyle = ProcessWindowStyle.Hidden;
-			start.CreateNoWindow = true;
+			start.WindowStyle = EnvironmentVars.processWindowHide;
+			start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
 			int exitCode;
 
 
@@ -70,8 +70,8 @@ namespace RepairTool.Repairs.Activities.OS
 			// Enter the executable to run, including the complete path
 			start.FileName = runFile;
 			// Do you want to show a console window?
-			start.WindowStyle = ProcessWindowStyle.Hidden;
-			start.CreateNoWindow = true;
+			start.WindowStyle = EnvironmentVars.processWindowHide;
+			start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
 			int exitCode;
 
 

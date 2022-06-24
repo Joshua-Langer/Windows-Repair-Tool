@@ -39,8 +39,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = "certutil";
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -80,8 +80,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = "rundll32.exe";
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -119,9 +119,8 @@ namespace RepairTool.Repairs.Activities.Global
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             start.FileName = EnvironmentVars.GLOBALREP + "\\tempfilecleanup\\systemp.bat";
-            start.CreateNoWindow = true;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.StandardOutputEncoding = Encoding.UTF8;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
             using (Process proc = Process.Start(start))
@@ -163,9 +162,8 @@ namespace RepairTool.Repairs.Activities.Global
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             start.FileName = EnvironmentVars.GLOBALREP + "\\tempfilecleanup\\rbinclean.bat";
-            start.CreateNoWindow = true;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.StandardOutputEncoding = Encoding.UTF8;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
             using (Process proc = Process.Start(start))
@@ -215,8 +213,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runPath;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -266,8 +264,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runPath;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -308,9 +306,8 @@ namespace RepairTool.Repairs.Activities.Global
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             start.FileName = EnvironmentVars.GLOBALREP + "\\tempfilecleanup\\updatecache.bat";
-            start.CreateNoWindow = true;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.StandardOutputEncoding = Encoding.UTF8;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
             using (Process proc = Process.Start(start))

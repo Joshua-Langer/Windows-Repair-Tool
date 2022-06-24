@@ -45,9 +45,8 @@ namespace RepairTool.Repairs.Activities.Global
             start.RedirectStandardOutput = true;
             start.Arguments = "enable-computerrestore -drive C:\\";
             start.FileName = EnvironmentVars.WINDIR + "System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-            start.CreateNoWindow = true;
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.StandardOutputEncoding = Encoding.UTF8;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
             using (Process proc = Process.Start(start))
@@ -95,8 +94,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -143,8 +142,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -177,8 +176,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -219,8 +218,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -261,8 +260,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -303,8 +302,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
 
 
             // Run the external process & wait for it to finish
@@ -340,8 +339,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -382,8 +381,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -448,8 +447,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -492,8 +491,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
@@ -543,8 +542,8 @@ namespace RepairTool.Repairs.Activities.Global
             // Enter the executable to run, including the complete path
             start.FileName = runFile;
             // Do you want to show a console window?
-            start.WindowStyle = ProcessWindowStyle.Hidden;
-            start.CreateNoWindow = true;
+            start.WindowStyle = EnvironmentVars.processWindowHide;
+            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
             int exitCode;
 
 
