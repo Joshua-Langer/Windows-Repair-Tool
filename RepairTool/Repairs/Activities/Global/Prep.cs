@@ -29,138 +29,65 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void Setup()
         {
-            Console.Title = "Windows Repair Tool - Temp Clean - Prep Beginning " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            var repairType = "Prep";
+            var taskName = "Initial Restore Point";
+            var runFile = EnvironmentVars.WINDIR + "system32\\WindowsPowerShell\\v1.0\\powershell.exe";
+            var arguments = "enable-computerrestore -drive C:\\";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo("Begining prep stage...", w);
-            }
-            System.Threading.Thread.Sleep(3000);
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Creating a restore point...", w);
-            }
-
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.UseShellExecute = false;
-            start.RedirectStandardOutput = true;
-            start.Arguments = "enable-computerrestore -drive C:\\";
-            start.FileName = EnvironmentVars.WINDIR + "System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-                var output = proc.StandardOutput.ReadToEnd();
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    Logger.LogInfo(output, w);
+                    Logger.LogWarning("Restore point may not have been made, be cautious...", w);
                 }
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
-                {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("Restore point may not have been made, be cautious.", w);
-                    }
-                }
-            }
-
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 
         private static void RKill()
         {
+            var repairType = "Prep";
+            var taskName = "Rkill";
             var runFile = EnvironmentVars.GLOBALREP + "rkill\\solitaire.exe";
-            Console.Title = "Windows Repair Tool - Prep - RKill " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Running RKill...", w);
-            }
+            var arguments = "enable-computerrestore -drive C:\\";
+            var exitCode = 0;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("If this task takes more than 20 minutes, kill solitaire.exe with Task Manager", w);
             }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-s -l " + EnvironmentVars.RAWLOGDIR + "rkill.log -w " + EnvironmentVars.GLOBALREP + "rkill\\rkill_process_whitelist.txt";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode == 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("RKill failed to run or was killed.", w);
-                    }
+                    Logger.LogWarning("RKill failed to run or was killed.", w);
                 }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 
         private static void SystemState()
         {
             string runFile;
-
+            
             if (Environment.Is64BitOperatingSystem)
                 runFile = EnvironmentVars.GLOBALREP + "log_tools\\siv\\siv32x.exe";
             else
                 runFile = EnvironmentVars.GLOBALREP + "log_tools\\siv\\siv64x.exe";
-
-            Console.Title = "Windows Repair Tool - Prep - Analyze System State " + EnvironmentVars.APPVERSION;
+            
+            var repairType = "Prep";
+            var taskName = "Analyze System State";
+            var arguments = "-save=[software]=" + EnvironmentVars.RAWLOGDIR + "installed-programs-before.txt";
+            var exitCode = 0;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                Logger.LogInfo("Generating pre-run system profile...", w);
+                Logger.LogInfo("If this task takes more than 20 minutes, kill solitaire.exe with Task Manager", w);
             }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-save=[software]=" + EnvironmentVars.RAWLOGDIR + "installed-programs-before.txt";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("System Programs were not logged", w);
-                    }
+                    Logger.LogWarning("System Programs were not logged", w);
                 }
             }
         }
@@ -168,122 +95,51 @@ namespace RepairTool.Repairs.Activities.Global
         private static void FileList()
         {
             var runFile = EnvironmentVars.GLOBALREP + "log_tools\\everything\\everything.exe";
-
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-create-filelist " + EnvironmentVars.RAWLOGDIR + "filelist-before.txt C:\\";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
+            var repairType = "Prep";
+            var taskName = "Analyze File List";
+            var arguments = "-create-filelist " + EnvironmentVars.RAWLOGDIR + "filelist-before.txt C:\\";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("System file list was not logged.", w);
-                    }
+                    Logger.LogWarning("System file list was not logged", w);
                 }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 
         private static void GUID()
         {
             var runFile = EnvironmentVars.WMIC;
-            Console.Title = "Windows Repair Tool - Prep - GUID Dump " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            var repairType = "Prep";
+            var taskName = "GUID Dump";
+            var arguments = "product get identifyingnumber,name,version /all > " + EnvironmentVars.RAWLOGDIR + "wmic_dump.log";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo("Dumping GUID list to logs...", w);
-            }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "product get identifyingnumber,name,version /all > " + EnvironmentVars.RAWLOGDIR + "wmic_dump.log";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("GUID dump was not completed.", w);
-                    }
+                    Logger.LogWarning("GUID dump was not completed.", w);
                 }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 
         private static void MetroDump()
         {
             var runFile = EnvironmentVars.WINDIR + "System32\\WindowsPowerShell\\v1.0\\powershell.exe";
-            Console.Title = "Windows Repair Tool - Prep - Metro app dump " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            var repairType = "Prep";
+            var taskName = "Metro App Dump";
+            var arguments = "Get-AppxPackage -AllUsers | Select Name > " + EnvironmentVars.RAWLOGDIR + "metro_app_dump.log";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo("Dumping Metro app list to log...", w);
-            }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "Get-AppxPackage -AllUsers | Select Name > " + EnvironmentVars.RAWLOGDIR + "metro_app_dump.log";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("Metro App Dump was not completed.", w);
-                    }
+                    Logger.LogWarning("Metro App Dump was not completed.", w);
                 }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 
@@ -327,84 +183,34 @@ namespace RepairTool.Repairs.Activities.Global
         private static void ProcessKiller()
         {
             var runFile = EnvironmentVars.GLOBALREP + "processkiller\\processkiller.exe";
-            Console.Title = "Windows Repair Tool - Prep - ProcessKiller " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            var repairType = "Prep";
+            var taskName = "ProcessKiller";
+            var arguments = "/silent";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo("Process Killer running...", w);
-            }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "/silent";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("ProcessKiller did not run correctly.", w);
-                    }
+                    Logger.LogWarning("ProcessKiller did not run correctly", w);
                 }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 
         private static void RegBack()
         {
             var runFile = EnvironmentVars.GLOBALREP + "backup_registry\\erunt.exe";
-            Console.Title = "Windows Repair Tool - Prep - Registry Backup " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            var repairType = "Prep";
+            var taskName = "Registry Backup";
+            var arguments = EnvironmentVars.RAWLOGDIR + "registry_backup /noconfirmdelete /noprogresswindow";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo("Backing up the registry...", w);
-            }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = EnvironmentVars.RAWLOGDIR + "registry_backup /noconfirmdelete /noprogresswindow";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("System Registry was not backed up.", w);
-                    }
+                    Logger.LogWarning("System Registry was not backed up.", w);
                 }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 
@@ -433,139 +239,56 @@ namespace RepairTool.Repairs.Activities.Global
         private static void InstallNetThreeFive()
         {
             var runFile = EnvironmentVars.WINDIR + "system32\\dism.exe";
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            var repairType = "Prep";
+            var taskName = "Install .NET 3.5";
+            var arguments = "/online /enable-feature /featurename:NetFX3 /source:C:sourcessxs /LimitAccess";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo("Installing .NET 3.5...", w);
-            }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.UseShellExecute = false;
-            start.RedirectStandardOutput = true;
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "/online /enable-feature /featurename:NetFX3 /source:C:sourcessxs /LimitAccess";
-
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-                System.Threading.Thread.Sleep(30000);
-                var output = proc.StandardOutput.ReadToEnd();
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    Logger.LogInfo(output, w);
+                    Logger.LogWarning(".NET 3.5 was not installed, skipping McAfee Stinger...", w);
                 }
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-
-                if (exitCode != 0)
-                {
-                    var netInstallFail = true;
-                    TDKiller(netInstallFail);
-                }
-                else
-                {
-                    Stinger();
-                }
+                TDKiller();
+            }
+            else
+            {
+                Stinger();
             }
         }
 
         private static void Stinger()
         {
             var runFile = EnvironmentVars.GLOBALREP + "mcafee_stinger\\stinger32.exe";
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Running McAfee Stinger...", w);
-            }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.RAWLOGDIR + " --DELETE";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
-                {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("Stinger failed to run correctly", w);
-                    }
-                }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
-            }
-        }
-
-        private static void TDKiller(bool stingerSkipped)
-        {
-            if (stingerSkipped)
+            var repairType = "Prep";
+            var taskName = "McAfee Stinger";
+            var arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.RAWLOGDIR + " --DELETE";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    EnvironmentVars.WarningsDetected = true;
-                    Logger.LogWarning("Stinger was skipped due to an issue with .NET 3.5 install.", w);
+                    Logger.LogWarning("Stinger failed to run correctly", w);
                 }
             }
+        }
 
+        private static void TDKiller()
+        {
             var runFile = EnvironmentVars.GLOBALREP + "tdss_killer\\TDSSKiller.exe";
-            Console.Title = "Windows Repair Tool - Prep - TDSS Killer " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            var repairType = "Prep";
+            var taskName = "TDSS Killer";
+            var arguments = "-l " + EnvironmentVars.RAWLOGDIR + " -silent -tdlfs -dcexact - accepteula -accepteulaksn";
+            var exitCode = 0;
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+            if (EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo("Running TDSS Killer...", w);
-            }
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "-l " + EnvironmentVars.LOGDIR + "rawlogs\\ -silent -tdlfs -dcexact - accepteula -accepteulaksn";
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-            int exitCode;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                // Retrieve the app's exit code
-                exitCode = proc.ExitCode;
-                if (exitCode != 0)
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                    {
-                        EnvironmentVars.WarningsDetected = true;
-                        Logger.LogWarning("TDSS Killer failed to run correctly.", w);
-                    }
+                    Logger.LogWarning("TDSS Killer failed to run correctly.", w);
                 }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
             }
         }
 

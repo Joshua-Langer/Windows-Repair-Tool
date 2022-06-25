@@ -49,10 +49,11 @@ namespace RepairTool.Core
         /// <param name="taskName"></param>
         /// <param name="runFile"></param>
         /// <param name="arguments"></param>
-        /// <param name="exitCode"></param>
+        /// <param name="exitCodeToAvoid"></param>
         public static void TaskRunner(string repairType, string taskName, string runFile, string arguments,
-            string exitCode)
+            int exitCodeToAvoid)
         {
+            EnvironmentVars.WarningsDetected = false;
             Console.Title = CONSOLETITLE + repairType + " - " + taskName + " " + EnvironmentVars.APPVERSION;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
@@ -67,24 +68,30 @@ namespace RepairTool.Core
             start.FileName = runFile;
             start.WindowStyle = EnvironmentVars.processWindowHide;
             start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
+            int exitCode;
 
             using (Process process = Process.Start(start))
             {
                 process.WaitForExit();
                 System.Threading.Thread.Sleep(15000);
                 var output = process.StandardOutput.ReadToEnd();
+                exitCode = process.ExitCode;
+                if (exitCode == exitCodeToAvoid)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                    }
+                }
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
                     Logger.LogInfo(output, w);
                 }
+                
             }
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo(taskName + " has completed...", w);
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Completed Code: " + exitCode, w);
             }
         }
 
@@ -96,10 +103,10 @@ namespace RepairTool.Core
         /// <param name="taskName"></param>
         /// <param name="runFile"></param>
         /// <param name="arguments"></param>
-        /// <param name="exitCode"></param>
+        /// <param name="exitCodeToAvoid"></param>
         /// <param name="errorCodeToAvoid"></param>
         public static void TaskRunner(string repairType, string taskName, string runFile, string arguments,
-            string exitCode, int errorCodeToAvoid)
+            int exitCodeToAvoid, int errorCodeToAvoid)
         {
             EnvironmentVars.ErrorsDetected = false; // Set to false in case an error was detected in a previous method run
             Console.Title = CONSOLETITLE + repairType + " - " + taskName + " " + EnvironmentVars.APPVERSION;
@@ -116,6 +123,7 @@ namespace RepairTool.Core
             start.FileName = runFile;
             start.WindowStyle = EnvironmentVars.processWindowHide;
             start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
+            int exitCode;
 
             var error = "";
             
@@ -125,6 +133,14 @@ namespace RepairTool.Core
                 System.Threading.Thread.Sleep(15000);
                 var output = process.StandardOutput.ReadToEnd();
                 error = process.StandardError.ReadToEnd();
+                exitCode = process.ExitCode;
+                if (exitCode == exitCodeToAvoid)
+                {
+                    using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                    {
+                        EnvironmentVars.WarningsDetected = true;
+                    }
+                }
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
                     Logger.LogInfo(output, w);
@@ -147,10 +163,6 @@ namespace RepairTool.Core
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo(taskName + " has completed without errors...", w);
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Completed Code: " + exitCode, w);
             }
         }
     }
