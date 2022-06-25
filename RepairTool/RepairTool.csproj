@@ -85,6 +85,7 @@
     <Compile Include="Core\ConfReader.cs" />
     <Compile Include="Core\CreateConf.cs" />
     <Compile Include="Core\NetworkCheck.cs" />
+    <Compile Include="Core\ProcessRunner.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="EnvironmentVars.cs" />
     <Compile Include="Core\Logger.cs" />
