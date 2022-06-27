@@ -56,7 +56,7 @@ namespace RepairTool.Core
 
         public static void SetVarsForRepairDirs()
         {
-            EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR + "\\Repair";
+            EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR + "\\Tools"; // For Home testing
             EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR + "\\logs\\";
             EnvironmentVars.RAWLOGDIR = EnvironmentVars.LOGDIR + "RawLogs\\";
             EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";

@@ -73,7 +73,6 @@ namespace RepairTool.Core
             using (Process process = Process.Start(start))
             {
                 process.WaitForExit();
-                System.Threading.Thread.Sleep(15000);
                 var output = process.StandardOutput.ReadToEnd();
                 exitCode = process.ExitCode;
                 if (exitCode == exitCodeToAvoid)
@@ -130,7 +129,6 @@ namespace RepairTool.Core
             using (Process process = Process.Start(start))
             {
                 process.WaitForExit();
-                System.Threading.Thread.Sleep(15000);
                 var output = process.StandardOutput.ReadToEnd();
                 error = process.StandardError.ReadToEnd();
                 exitCode = process.ExitCode;

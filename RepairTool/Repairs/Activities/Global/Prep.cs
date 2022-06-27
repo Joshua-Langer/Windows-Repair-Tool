@@ -78,10 +78,6 @@ namespace RepairTool.Repairs.Activities.Global
             var taskName = "Analyze System State";
             var arguments = "-save=[software]=" + EnvironmentVars.RAWLOGDIR + "installed-programs-before.txt";
             var exitCode = 0;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("If this task takes more than 20 minutes, kill solitaire.exe with Task Manager", w);
-            }
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
             {

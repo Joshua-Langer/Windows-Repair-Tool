@@ -13,11 +13,12 @@ namespace RepairTool.Admin
         {
             Console.Title = "Repair Tool - Initial Setup " + EnvironmentVars.APPVERSION;
             CreateLogDirectory();
-            File.Create(_setupLog);
-            CreateCompany();
-            EnvironmentVars.IPADDR = GetServerAddress();
-            CreateResourceDirectories();
-            InstallResources();
+            /*File.Create(_setupLog);*/
+            Console.WriteLine(EnvironmentVars.BINDIR);
+            //CreateCompany();
+            //EnvironmentVars.IPADDR = GetServerAddress();
+           // CreateResourceDirectories();
+           // InstallResources();
             CreateConfiguration();
         }
 
@@ -26,8 +27,8 @@ namespace RepairTool.Admin
             Console.WriteLine("***********************************************************");
             Console.WriteLine("**************************SETUP****************************");
             Console.WriteLine("***********************************************************");
-            Console.WriteLine("System installing to C:\\wrtbin\\");
-            ResetVarsForDirs();
+            Console.WriteLine("System installing to C:\\wrtbin\\");/*
+            ResetVarsForDirs();*/
             try
             {
                 Console.WriteLine("Creating Bin Directory...");
@@ -91,14 +92,11 @@ namespace RepairTool.Admin
                 Console.WriteLine("Company Configuration file created");
             } catch (Exception e)
             {
-                using (StreamWriter w = File.AppendText(_setupLog))
+                /*using (StreamWriter w = File.AppendText(_setupLog))
                 {
                     Logger.LogError("Failed to create configuration file..." + e.Message + " Exit Code: " + EnvironmentVars.SETUPFAILEDTOCREATECONF, w);
-                }
+                }*/
             }
-            
-            System.Threading.Thread.Sleep(1500);
-            Environment.Exit(EnvironmentVars.INITIALSETUPCOMPLETE);
         }
 
         private static void CreateResourceDirectories()
