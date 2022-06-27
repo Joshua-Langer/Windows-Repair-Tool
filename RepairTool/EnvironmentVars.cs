@@ -16,6 +16,7 @@ namespace RepairTool
         public static bool DebugMode = false;
         public static bool RebootRequired = false;
         public static bool noConsoleWindow = true;
+        public static bool netThreeFivePresent = false;
         
         public static ProcessWindowStyle processWindowHide = ProcessWindowStyle.Hidden;
 

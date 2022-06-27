@@ -98,7 +98,9 @@
     <Compile Include="Repairs\Activities\Malware\Kaspersky.cs" />
     <Compile Include="Repairs\Activities\Malware\MalwareBytes.cs" />
     <Compile Include="Repairs\Activities\Malware\MalwareScans.cs" />
+    <Compile Include="Repairs\Activities\Malware\RootkitKiller.cs" />
     <Compile Include="Repairs\Activities\Malware\Sophos.cs" />
+    <Compile Include="Repairs\Activities\Malware\Stinger.cs" />
     <Compile Include="Repairs\Activities\OS\Cleanup.cs" />
     <Compile Include="Repairs\Activities\OS\InternetFixes.cs" />
     <Compile Include="Repairs\Activities\OS\SystemRepair.cs" />

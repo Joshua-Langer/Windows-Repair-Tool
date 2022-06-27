@@ -240,7 +240,7 @@ namespace RepairTool.Repairs.Activities.Global
             else
             {
                 EnvironmentVars.WarningsDetected = false;
-                Stinger();
+                EnvironmentVars.netThreeFivePresent = true;
             }
         }
 
@@ -259,50 +259,12 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning(".NET 3.5 was not installed, skipping McAfee Stinger...", w);
                 }
                 EnvironmentVars.WarningsDetected = false;
-                TDKiller();
+                EnvironmentVars.netThreeFivePresent = false;
             }
             else
             {
-                EnvironmentVars.WarningsDetected = false;
-                Stinger();
+                EnvironmentVars.netThreeFivePresent = true;
             }
-        }
-
-        private static void Stinger()
-        {
-            var runFile = EnvironmentVars.GLOBALREP + "mcafee_stinger\\stinger32.exe";
-            var repairType = "Prep";
-            var taskName = "McAfee Stinger";
-            var arguments = "--GO --SILENT --PROGRAM --REPORTPATH=" + EnvironmentVars.RAWLOGDIR + " --DELETE";
-            var exitCode = 0;
-            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
-            if (EnvironmentVars.WarningsDetected)
-            {
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogWarning("Stinger failed to run correctly", w);
-                }
-            }
-            EnvironmentVars.WarningsDetected = false;
-            TDKiller();
-        }
-
-        private static void TDKiller()
-        {
-            var runFile = EnvironmentVars.GLOBALREP + "tdss_killer\\TDSSKiller.exe";
-            var repairType = "Prep";
-            var taskName = "TDSS Killer";
-            var arguments = "-l " + EnvironmentVars.RAWLOGDIR + " -silent -tdlfs -dcexact -accepteula -accepteulaksn";
-            var exitCode = 0;
-            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
-            if (EnvironmentVars.WarningsDetected)
-            {
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogWarning("TDSS Killer failed to run correctly.", w);
-                }
-            }
-            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void PrepComplete()
