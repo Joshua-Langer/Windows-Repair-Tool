@@ -49,7 +49,7 @@ namespace RepairTool.Repairs.Activities.Global
             var repairType = "Prep";
             var taskName = "Rkill";
             var runFile = EnvironmentVars.GLOBALREP + "rkill\\solitaire.exe";
-            var arguments = "enable-computerrestore -drive C:\\";
+            var arguments = "-s -l " + EnvironmentVars.LOGDIR + "rawlogs\\rkill.log -w " + EnvironmentVars.GLOBALREP + "rkill\\rkill_process_whitelist.txt";
             var exitCode = 0;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
