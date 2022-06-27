@@ -269,6 +269,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("Stinger failed to run correctly", w);
                 }
             }
+            TDKiller();
         }
 
         private static void TDKiller()
