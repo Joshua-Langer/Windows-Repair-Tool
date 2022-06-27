@@ -101,8 +101,8 @@ namespace RepairTool.Core
                 }
                 else
                 {
-                    // Otherwise run prep tasks
-                    Prep.RunTasks();
+                    // Otherwise run get the SO and run tasks
+                    UserMenu.Start();
                 }
             }
         }

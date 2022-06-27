@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using RepairTool.Repairs.Activities.Malware;
+using RepairTool.Repairs.Activities.Global;
 
 namespace RepairTool.Repairs
 {
@@ -29,10 +30,10 @@ namespace RepairTool.Repairs
 
             EnvironmentVars.LOGFILE = EnvironmentVars.LOGDIR + serviceOrderNumber + ".log";
             EnvironmentVars.RAWLOGDIR = rawRepairDir;
-            Menu();
+            Prep.RunTasks();
         }
 
-        private static void Menu()
+        public static void Menu()
         {
             Console.Clear();
             Console.Title = "Windows Repair Tool - " + EnvironmentVars.APPVERSION + " running on " + Systems.WindowsVersionDetection();

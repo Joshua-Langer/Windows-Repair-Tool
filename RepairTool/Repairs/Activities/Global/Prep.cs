@@ -3,7 +3,6 @@ using RepairTool.Core;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Text;
 
 namespace RepairTool.Repairs.Activities.Global
 {
@@ -67,7 +66,8 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void SystemState()
         {
-            string runFile;
+            // Old using siv that keeps freezing...
+            /*string runFile;
             
             if (Environment.Is64BitOperatingSystem)
                 runFile = EnvironmentVars.GLOBALREP + "log_tools\\siv\\siv32x.exe";
@@ -84,6 +84,22 @@ namespace RepairTool.Repairs.Activities.Global
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
                     Logger.LogWarning("System Programs were not logged", w);
+                }
+            }*/
+            var installLog = EnvironmentVars.RAWLOGDIR + "installed-programs-before.log";
+            // New Version of getting the installed programs
+            var regKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
+            using (RegistryKey key = Registry.LocalMachine.OpenSubKey(regKey))
+            {
+                foreach(string subkey in key.GetSubKeyNames())
+                {
+                    using (RegistryKey sub = key.OpenSubKey(subkey))
+                    {
+                        using (StreamWriter w = File.AppendText(installLog))
+                        {
+                            Logger.LogInfo(sub.GetValue("DisplayName").ToString(), w);
+                        }
+                    }
                 }
             }
         }
@@ -294,7 +310,7 @@ namespace RepairTool.Repairs.Activities.Global
             {
                 Logger.LogInfo("Prep complete...", w);
             }
-            UserMenu.Start();
+            UserMenu.Menu();
         }
     }
 }
