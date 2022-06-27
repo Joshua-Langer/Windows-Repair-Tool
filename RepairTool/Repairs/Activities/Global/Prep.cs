@@ -3,6 +3,7 @@ using RepairTool.Core;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Management;
 
 namespace RepairTool.Repairs.Activities.Global
 {
@@ -31,20 +32,31 @@ namespace RepairTool.Repairs.Activities.Global
         private static void Setup()
         {
             EnvironmentVars.WarningsDetected = false;
-            var repairType = "Prep";
-            var taskName = "Initial Restore Point";
-            var runFile = EnvironmentVars.WINDIR + "system32\\WindowsPowerShell\\v1.0\\powershell.exe";
-            var arguments = "enable-computerrestore -drive C:\\";
-            var exitCode = 0;
-            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
-            if (EnvironmentVars.WarningsDetected)
+
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogWarning("Restore point may not have been made, be cautious...", w);
-                }
+                Logger.LogInfo("Attempting to create a system restore point...", w);
             }
-            EnvironmentVars.WarningsDetected = false;
+
+            // New Code for restore point:
+            ManagementScope oScope = new ManagementScope("\\\\localhost\\root\\default");
+            ManagementPath oPath = new ManagementPath("SystemRestore");
+            ObjectGetOptions oOptions = new ObjectGetOptions();
+            ManagementClass oProcess = new ManagementClass(oScope, oPath, oOptions);
+
+            ManagementBaseObject oInParams =
+                oProcess.GetMethodParameters("CreateRestorePoint");
+            oInParams["Description"] = "WRT Point";
+            oInParams["RestorePointType"] = 12;
+            oInParams["EventType"] = 100;
+
+            ManagementBaseObject oOutParams =
+                oProcess.InvokeMethod("CreateRestorePoint", oInParams, null);
+
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Attempted to create a system restore point...", w);
+            }
         }
 
         private static void RKill()
