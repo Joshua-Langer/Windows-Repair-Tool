@@ -8,6 +8,8 @@ namespace RepairTool.Repairs.Activities.Global
 {
     public static class Prep
     {
+
+        private static string installLog = EnvironmentVars.RAWLOGDIR + "installed-programs-before.log";
         public static void RunTasks()
         {
             Console.Clear();
@@ -66,28 +68,6 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void SystemState()
         {
-            // Old using siv that keeps freezing...
-            /*string runFile;
-            
-            if (Environment.Is64BitOperatingSystem)
-                runFile = EnvironmentVars.GLOBALREP + "log_tools\\siv\\siv32x.exe";
-            else
-                runFile = EnvironmentVars.GLOBALREP + "log_tools\\siv\\siv64x.exe";
-            
-            var repairType = "Prep";
-            var taskName = "Analyze System State";
-            var arguments = "-save=[software]=" + EnvironmentVars.RAWLOGDIR + "installed-programs-before.txt";
-            var exitCode = 0;
-            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
-            if (EnvironmentVars.WarningsDetected)
-            {
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogWarning("System Programs were not logged", w);
-                }
-            }*/
-            var installLog = EnvironmentVars.RAWLOGDIR + "installed-programs-before.log";
-            // New Version of getting the installed programs
             var regKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
             using (RegistryKey key = Registry.LocalMachine.OpenSubKey(regKey))
             {
@@ -95,10 +75,14 @@ namespace RepairTool.Repairs.Activities.Global
                 {
                     using (RegistryKey sub = key.OpenSubKey(subkey))
                     {
-                        using (StreamWriter w = File.AppendText(installLog))
+                        if (sub.GetValue("DisplayName") != null)
                         {
-                            Logger.LogInfo(sub.GetValue("DisplayName").ToString(), w);
+                            using (StreamWriter w = File.AppendText(installLog))
+                            {
+                                Logger.LogInfo(sub.GetValue("DisplayName").ToString(), w);
+                            }
                         }
+                        
                     }
                 }
             }
