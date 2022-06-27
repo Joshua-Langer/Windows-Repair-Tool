@@ -88,10 +88,14 @@ namespace RepairTool.Core
                 }
                 
             }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            if (!EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo(taskName + " has completed...", w);
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo(taskName + " has completed...", w);
+                }
             }
+            
         }
 
         /// <summary>
@@ -157,10 +161,13 @@ namespace RepairTool.Core
                     Logger.LogError(taskName + " has completed with errors...", w);
                 }
             }
-            
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+
+            if (!EnvironmentVars.WarningsDetected)
             {
-                Logger.LogInfo(taskName + " has completed without errors...", w);
+                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+                {
+                    Logger.LogInfo(taskName + " has completed...", w);
+                }
             }
         }
     }

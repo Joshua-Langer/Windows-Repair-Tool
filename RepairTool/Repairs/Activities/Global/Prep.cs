@@ -30,6 +30,7 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void Setup()
         {
+            EnvironmentVars.WarningsDetected = false;
             var repairType = "Prep";
             var taskName = "Initial Restore Point";
             var runFile = EnvironmentVars.WINDIR + "system32\\WindowsPowerShell\\v1.0\\powershell.exe";
@@ -43,6 +44,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("Restore point may not have been made, be cautious...", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void RKill()
@@ -64,6 +66,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("RKill failed to run or was killed.", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void SystemState()
@@ -86,6 +89,7 @@ namespace RepairTool.Repairs.Activities.Global
                     }
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void FileList()
@@ -103,6 +107,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("System file list was not logged", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void GUID()
@@ -120,6 +125,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("GUID dump was not completed.", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void MetroDump()
@@ -137,6 +143,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("Metro App Dump was not completed.", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void NoSleep()
@@ -174,6 +181,7 @@ namespace RepairTool.Repairs.Activities.Global
             {
                 Logger.LogInfo("Complete...", w);
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void ProcessKiller()
@@ -191,6 +199,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("ProcessKiller did not run correctly", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void RegBack()
@@ -208,6 +217,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("System Registry was not backed up.", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         // Check for .NET 3.5 minimum.
@@ -224,10 +234,12 @@ namespace RepairTool.Repairs.Activities.Global
 
             if (registryKey == null)
             {
+                EnvironmentVars.WarningsDetected = false;
                 InstallNetThreeFive();
             }
             else
             {
+                EnvironmentVars.WarningsDetected = false;
                 Stinger();
             }
         }
@@ -246,10 +258,12 @@ namespace RepairTool.Repairs.Activities.Global
                 {
                     Logger.LogWarning(".NET 3.5 was not installed, skipping McAfee Stinger...", w);
                 }
+                EnvironmentVars.WarningsDetected = false;
                 TDKiller();
             }
             else
             {
+                EnvironmentVars.WarningsDetected = false;
                 Stinger();
             }
         }
@@ -269,6 +283,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("Stinger failed to run correctly", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
             TDKiller();
         }
 
@@ -277,7 +292,7 @@ namespace RepairTool.Repairs.Activities.Global
             var runFile = EnvironmentVars.GLOBALREP + "tdss_killer\\TDSSKiller.exe";
             var repairType = "Prep";
             var taskName = "TDSS Killer";
-            var arguments = "-l " + EnvironmentVars.RAWLOGDIR + " -silent -tdlfs -dcexact - accepteula -accepteulaksn";
+            var arguments = "-l " + EnvironmentVars.RAWLOGDIR + " -silent -tdlfs -dcexact -accepteula -accepteulaksn";
             var exitCode = 0;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
@@ -287,6 +302,7 @@ namespace RepairTool.Repairs.Activities.Global
                     Logger.LogWarning("TDSS Killer failed to run correctly.", w);
                 }
             }
+            EnvironmentVars.WarningsDetected = false;
         }
 
         private static void PrepComplete()
@@ -295,6 +311,7 @@ namespace RepairTool.Repairs.Activities.Global
             {
                 Logger.LogInfo("Prep complete...", w);
             }
+            EnvironmentVars.WarningsDetected = false;
             UserMenu.Menu();
         }
     }
