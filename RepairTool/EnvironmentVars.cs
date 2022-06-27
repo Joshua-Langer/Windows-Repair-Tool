@@ -43,7 +43,7 @@ namespace RepairTool
 
         // Additional strings used throughout the program - shown as statics for file paths as the Current Directory may change
         public static string ROOTDIR = "\\" + IPADDR;
-        public static string BINDIR = "\\\\" + IPADDR + "\\Tools";
+        public static string BINDIR = "\\\\" + IPADDR;
         public static string LOGDIR = BINDIR +"\\logs\\";
         public static string RAWLOGDIR = LOGDIR + "RawLogs\\";
         public static string RESDIR = BINDIR + "\\resources\\";
@@ -51,8 +51,8 @@ namespace RepairTool
         public static string LOGFILE = LOGDIR + "";
         public static string CONFFILE = CONFDIR + "companyconfiguration.ini";
         public static string ARCHIVE = BINDIR + "\\Archives\\";
-        public static string COMPANYNAME = "Home"; // Hardcode Company name for ease of use for customers/deployments
-        public static string IPADDR = "10.0.10.8"; // Hardcode IP for ease of use for customers/deployments
+        public static string COMPANYNAME = "YWTT"; // Hardcode Company name for ease of use for customers/deployments
+        public static string IPADDR = "192.168.0.4"; // Hardcode IP for ease of use for customers/deployments
         public static string SETUPLOG = Directory.GetCurrentDirectory() + "\\setuplog\\";
         public static string SYSTEMLOGS = BINDIR + "\\SystemLogs\\wrtlogger.log";
         public static string APPVERSION = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion;

@@ -27,12 +27,16 @@ namespace RepairTool.Core
         {
             if (EnvironmentVars.IPADDR == NetworkCheck.CurrentIPAddress())
             {
+                Console.WriteLine("Checking for Server Configuration...");
+                System.Threading.Thread.Sleep(5000);
                 SetVarsForServerDirs();
                 System.Threading.Thread.Sleep(500);
                 CheckConfFile();
             }
             else
             {
+                Console.WriteLine("Checking for Server Configuration to start repairs...");
+                System.Threading.Thread.Sleep(5000);
                 SetVarsForRepairDirs();
                 System.Threading.Thread.Sleep(500);
                 CheckConfFile();
@@ -56,7 +60,7 @@ namespace RepairTool.Core
 
         public static void SetVarsForRepairDirs()
         {
-            EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR + "\\Tools"; // For Home testing
+            EnvironmentVars.BINDIR = "\\\\" + EnvironmentVars.IPADDR + "\\Repair"; // For Home testing change repairs to tools
             EnvironmentVars.LOGDIR = EnvironmentVars.BINDIR + "\\logs\\";
             EnvironmentVars.RAWLOGDIR = EnvironmentVars.LOGDIR + "RawLogs\\";
             EnvironmentVars.RESDIR = EnvironmentVars.BINDIR + "\\resources\\";
