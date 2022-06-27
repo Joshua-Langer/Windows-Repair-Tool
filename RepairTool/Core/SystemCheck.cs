@@ -1,5 +1,6 @@
 ﻿using RepairTool.Admin;
 using RepairTool.Repairs;
+using RepairTool.Repairs.Activities.Global;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -100,8 +101,8 @@ namespace RepairTool.Core
                 }
                 else
                 {
-                    // Otherwise go to the repair launcher
-                    UserMenu.Start();
+                    // Otherwise run prep tasks
+                    Prep.RunTasks();
                 }
             }
         }

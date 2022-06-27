@@ -8,12 +8,17 @@ namespace RepairTool.Repairs.Activities.OS
     {
         public static void BeginRepair()
         {
-            Prep.RunTasks();
+            EnvironmentVars.WarningsDetected = false;
             InternetFixes.WinsockReset();
+            EnvironmentVars.WarningsDetected = false;
             InternetFixes.RepairDNS();
+            EnvironmentVars.WarningsDetected = false;
             Cleanup.CleanupMsi();
+            EnvironmentVars.WarningsDetected = false;
             Cleanup.RepairFileExtensions();
+            EnvironmentVars.WarningsDetected = false;
             Cleanup.DiskCheck();
+            EnvironmentVars.WarningsDetected = false;
             GlobalTaskRunner.Run();
         }
     }
