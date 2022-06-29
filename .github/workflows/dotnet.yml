@@ -84,7 +84,7 @@ jobs:
         Configuration: ${{ matrix.configuration }}
 
     - name: Install dependencies
-      run: dotnet add package MadMilkman.Ini --version 1.0.6
+      run: dotnet add $env:Wap_Project_Path package MadMilkman.Ini --version 1.0.6
 
     # Decode the base 64 encoded pfx and save the Signing_Certificate
     - name: Decode the pfx
