@@ -18,7 +18,8 @@ jobs:
       run: cd $GITHUB_WORKSPACE
     - name: Install dependencies
       run: dotnet add package MadMilkman.Ini --version 1.0.6
-    - name: run mkdir _build
+    - name: Create Build Directory
+      run: run mkdir _build
     
       
     - name: Build
