@@ -15,7 +15,7 @@ jobs:
     - name: Setup .NET
       uses: microsoft/setup-msbuild@v1
     - name: Navigate to Workspace
-      run: cd $GITHUB_WORKSPACE
+      run: cd D:/a/Windows-Repair-Tool/RepairTool/
     - name: Install dependencies
       run: dotnet add package MadMilkman.Ini --version 1.0.6
     - name: Create Build Directory
