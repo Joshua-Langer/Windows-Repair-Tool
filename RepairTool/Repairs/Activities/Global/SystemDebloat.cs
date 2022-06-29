@@ -19,11 +19,13 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void RemoveBloatwareByGUID()
         {
-            Console.Title = "Windows Repair Tool - Debloat - Remove Bloatware by GUID " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Comparing system GUID list against blacklisted entries, please wait...", w);
-            }
+            var repairType = "Debloat";
+            var taskName = "Remove Bloatware by GUID";
+            var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
+            var arguments = "/wait msiexec /qn /norestart /x "; // += junkware[j]
+            var exitCode = -1;
+
+            
             string[] junkWare = File.ReadAllLines(EnvironmentVars.GLOBALREP + "oem\\programs_to_target_by_GUID.txt");
             if (File.Exists(EnvironmentVars.RAWLOGDIR + "wmic_dump.log"))
             {
@@ -39,34 +41,15 @@ namespace RepairTool.Repairs.Activities.Global
                             {
                                 Logger.LogInfo(currentGUIDList[i] + " MATCH from target list, uninstalling...", w);
                             }
-                            var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
-                            // Prepare the process to run
-                            ProcessStartInfo start = new ProcessStartInfo();
-                            start.UseShellExecute = false;
-                            start.RedirectStandardOutput = true;
-                            // Enter in the command line arguments, everything you would enter after the executable name itself
-                            start.Arguments = "/wait msiexec /qn /norestart /x " + junkWare[j];
-
-                            // Enter the executable to run, including the complete path
-                            start.FileName = runFile;
-                            // Do you want to show a console window?
-                            start.WindowStyle = EnvironmentVars.processWindowHide;
-                            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-                            int exitCode;
-
-
-                            // Run the external process & wait for it to finish
-                            using (Process proc = Process.Start(start))
+                            arguments += junkWare[j];
+                            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+                            if (EnvironmentVars.WarningsDetected)
                             {
-                                proc.WaitForExit();
-                                System.Threading.Thread.Sleep(30000);
-                                var output = proc.StandardOutput.ReadToEnd();
                                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                                 {
-                                    Logger.LogInfo(output, w);
+                                    Logger.LogWarning(junkWare[j] + " was unabled to be removed...", w);
                                 }
-                                // Retrieve the app's exit code
-                                exitCode = proc.ExitCode;
+                                EnvironmentVars.WarningsDetected = false;
                             }
                         }
                     }
@@ -77,8 +60,6 @@ namespace RepairTool.Repairs.Activities.Global
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
                     Logger.LogInfo("No GUID List to compare against. Skipping GUID Bloatware removal...", w);
-                    EnvironmentVars.WarningsDetected = true;
-                    CreateConf.UpdateConfiguration("Booleans", "Warnings Detected", EnvironmentVars.WarningsDetected.ToString());
                     ToolBarRemoval();
                 }
             }
@@ -86,11 +67,13 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void ToolBarRemoval()
         {
-            Console.Title = "Windows Repair Tool - Debloat - Remove Toolbars by GUID " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Comparing system GUID list against blacklisted entries, please wait...", w);
-            }
+            var repairType = "Debloat";
+            var taskName = "Remove Toolbars by GUID";
+            var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
+            var arguments = "/wait msiexec /qn /norestart /x "; // += junkware[j]
+            var exitCode = -1;
+
+
             string[] junkWare = File.ReadAllLines(EnvironmentVars.GLOBALREP + "oem\\toolbars_BHOs_to_target_by_GUID.txt");
             if (File.Exists(EnvironmentVars.RAWLOGDIR + "wmic_dump.log"))
             {
@@ -106,34 +89,15 @@ namespace RepairTool.Repairs.Activities.Global
                             {
                                 Logger.LogInfo(currentGUIDList[i] + " MATCH from target list, uninstalling...", w);
                             }
-                            var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
-                            // Prepare the process to run
-                            ProcessStartInfo start = new ProcessStartInfo();
-                            start.UseShellExecute = false;
-                            start.RedirectStandardOutput = true;
-                            // Enter in the command line arguments, everything you would enter after the executable name itself
-                            start.Arguments = "/wait msiexec /qn /norestart /x " + junkWare[j];
-
-                            // Enter the executable to run, including the complete path
-                            start.FileName = runFile;
-                            // Do you want to show a console window?
-                            start.WindowStyle = EnvironmentVars.processWindowHide;
-                            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-                            int exitCode;
-
-
-                            // Run the external process & wait for it to finish
-                            using (Process proc = Process.Start(start))
+                            arguments += junkWare[j];
+                            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
+                            if (EnvironmentVars.WarningsDetected)
                             {
-                                proc.WaitForExit();
-                                System.Threading.Thread.Sleep(30000);
-                                var output = proc.StandardOutput.ReadToEnd();
                                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                                 {
-                                    Logger.LogInfo(output, w);
+                                    Logger.LogWarning(junkWare[j] + " was unabled to be removed...", w);
                                 }
-                                // Retrieve the app's exit code
-                                exitCode = proc.ExitCode;
+                                EnvironmentVars.WarningsDetected = false;
                             }
                         }
                     }
@@ -143,8 +107,7 @@ namespace RepairTool.Repairs.Activities.Global
             {
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    Logger.LogInfo("No GUID List to compare against. Skipping GUID Toolbar removal...", w);
-                    EnvironmentVars.WarningsDetected = true;
+                    Logger.LogInfo("No GUID List to compare against. Skipping GUID Bloatware removal...", w);
                     RemoveBloatwareByName();
                 }
             }
@@ -152,7 +115,11 @@ namespace RepairTool.Repairs.Activities.Global
 
         private static void RemoveBloatwareByName()
         {
-            Console.Title = "Windows Repair Tool - Debloat - Remove Toolbars by GUID " + EnvironmentVars.APPVERSION;
+            var repairType = "Debloat";
+            var taskName = "Remove Bloatware by Name";
+            var runFile = EnvironmentVars.GLOBALREP + "junkware.bat";
+            var arguments = "";
+
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("Attempting junkware removal...", w);
@@ -165,93 +132,24 @@ namespace RepairTool.Repairs.Activities.Global
             {
                 Logger.LogInfo("Errors about 'SHUTTING DOWN' are safe to ignore...", w);
             }
+
             string[] junkWare = File.ReadAllLines(EnvironmentVars.GLOBALREP + "oem\\programs_to_target_by_name.txt");
-            var runFile = EnvironmentVars.GLOBALREP + "junkware.bat";
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            start.UseShellExecute = false;
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.RedirectStandardOutput = true;
-            // Enter the executable to run, including the complete path
-            start.FileName = runFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                var output = proc.StandardOutput.ReadToEnd();
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogInfo(output, w);
-                }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
-            }
+            ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments);
         }
 
         private static void ClearWindowsApps()
         {
-            Console.Title = "Windows Repair Tool - Debloat - Remove Windows Apps " + EnvironmentVars.APPVERSION;
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Attempting Windows Apps removal...", w);
-            }
+            var repairType = "Debloat";
+            var taskName = "Remove Windows Apps";
             var runFileFirst = EnvironmentVars.GLOBALREP + "metro\\metro_3rd_party_modern_apps_to_target_by_name.ps1";
-            var starterFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
-            // Prepare the process to run
-            ProcessStartInfo start = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            start.Arguments = "start /wait powershell -executionpolicy bypass -file " + runFileFirst;
-            // Enter the executable to run, including the complete path
-            start.FileName = starterFile;
-            // Do you want to show a console window?
-            start.WindowStyle = EnvironmentVars.processWindowHide;
-            start.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                var output = proc.StandardOutput.ReadToEnd();
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogInfo(output, w);
-                }
-            }
-            var runFileLast = EnvironmentVars.GLOBALREP + "metro\\metro_Microsoft_modern_apps_to_target_by_name.ps1";
-            // Prepare the process to run
-            ProcessStartInfo end = new ProcessStartInfo();
-            // Enter in the command line arguments, everything you would enter after the executable name itself
-            end.Arguments = "start /wait powershell -executionpolicy bypass -file " + runFileLast;
-            // Enter the executable to run, including the complete path
-            end.FileName = starterFile;
-            // Do you want to show a console window?
-            end.WindowStyle = EnvironmentVars.processWindowHide;
-            end.CreateNoWindow = EnvironmentVars.noConsoleWindow;
-
-            // Run the external process & wait for it to finish
-            using (Process proc = Process.Start(start))
-            {
-                proc.WaitForExit();
-
-                var output = proc.StandardOutput.ReadToEnd();
-                using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-                {
-                    Logger.LogInfo(output, w);
-                }
-            }
-            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-            {
-                Logger.LogInfo("Complete...", w);
-            }
+            var runFileSecond = EnvironmentVars.GLOBALREP + "metro\\metro_Microsoft_modern_apps_to_target_by_name.ps1";
+            var startFire = EnvironmentVars.WINDIR + "system32\\cmd.exe";
+            var argumentsOne = "start /wait powershell -executionpolicy bypass -file " + runFileFirst;
+            var argumentsTwo = "start /wait powershell -executionpolicy bypass -file " + runFileSecond;
+            ProcessRunner.TaskRunner(repairType, taskName, startFire, argumentsOne);
+            System.Threading.Thread.Sleep(2500);
+            ProcessRunner.TaskRunner(repairType, taskName, startFire, argumentsTwo);
+            System.Threading.Thread.Sleep(2500);
         }
 
         private static void DebloatCompleted()

@@ -82,7 +82,7 @@ namespace RepairTool.Repairs.Activities.Global
             var taskName = "Rkill";
             var runFile = EnvironmentVars.GLOBALREP + "rkill\\solitaire.exe";
             var arguments = "-s -l " + EnvironmentVars.RAWLOGDIR + "rkill.log -w " + EnvironmentVars.GLOBALREP + "rkill\\rkill_process_whitelist.txt";
-            var exitCode = 0;
+            var exitCode = -1;
             using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
             {
                 Logger.LogInfo("If this task takes more than 20 minutes, kill solitaire.exe with Task Manager", w);
@@ -127,7 +127,7 @@ namespace RepairTool.Repairs.Activities.Global
             var repairType = "Prep";
             var taskName = "Analyze File List";
             var arguments = "-create-filelist " + EnvironmentVars.RAWLOGDIR + "filelist-before.txt C:\\";
-            var exitCode = 0;
+            var exitCode = -1;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
             {
@@ -145,7 +145,7 @@ namespace RepairTool.Repairs.Activities.Global
             var repairType = "Prep";
             var taskName = "GUID Dump";
             var arguments = "product get identifyingnumber,name,version /all > " + EnvironmentVars.RAWLOGDIR + "wmic_dump.log";
-            var exitCode = 0;
+            var exitCode = -1;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
             {
@@ -163,7 +163,7 @@ namespace RepairTool.Repairs.Activities.Global
             var repairType = "Prep";
             var taskName = "Metro App Dump";
             var arguments = "Get-AppxPackage -AllUsers | Select Name > " + EnvironmentVars.RAWLOGDIR + "metro_app_dump.log";
-            var exitCode = 0;
+            var exitCode = -1;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
             {
@@ -219,7 +219,7 @@ namespace RepairTool.Repairs.Activities.Global
             var repairType = "Prep";
             var taskName = "ProcessKiller";
             var arguments = "/silent";
-            var exitCode = 0;
+            var exitCode = -1;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
             {
@@ -237,7 +237,7 @@ namespace RepairTool.Repairs.Activities.Global
             var repairType = "Prep";
             var taskName = "Registry Backup";
             var arguments = EnvironmentVars.RAWLOGDIR + "registry_backup /noconfirmdelete /noprogresswindow";
-            var exitCode = 0;
+            var exitCode = -1;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
             {
@@ -279,7 +279,7 @@ namespace RepairTool.Repairs.Activities.Global
             var repairType = "Prep";
             var taskName = "Install .NET 3.5";
             var arguments = "/online /enable-feature /featurename:NetFX3 /source:C:sourcessxs /LimitAccess";
-            var exitCode = 0;
+            var exitCode = -1;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode);
             if (EnvironmentVars.WarningsDetected)
             {
