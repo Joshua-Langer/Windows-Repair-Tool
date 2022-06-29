@@ -78,7 +78,7 @@ jobs:
 
       
     - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.2
+      uses: NuGet/setup-nuget@v1.0.6
 
     - name: Install dependencies
       run: install-package MadMilkman.Ini
