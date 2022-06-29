@@ -16,6 +16,7 @@ namespace RepairTool.Repairs.Activities.Global
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Green;
             Console.BackgroundColor = ConsoleColor.Black;
+            PrepLogStart();
             Setup();
             RKill();
             SystemState();
@@ -27,6 +28,22 @@ namespace RepairTool.Repairs.Activities.Global
             RegBack();
             NetInstall();
             PrepComplete();
+        }
+
+        private static void PrepLogStart()
+        {
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Windows Repair Tool - " + EnvironmentVars.APPVERSION, w);
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Pre-Operation scans and logging starting...", w);
+            }
+            using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
+            {
+                Logger.LogInfo("Windows Version: " + Systems.WindowsVersionDetection(), w);
+            }
         }
 
         private static void Setup()
