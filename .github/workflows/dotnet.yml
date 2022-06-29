@@ -8,16 +8,19 @@ on:
 
 jobs:
   build:
-
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-    
+      uses: microsoft/setup-msbuild@v1
+    - name: Navigate to Workspace
+      run: cd $GITHUB_WORKSPACE
     - name: Install dependencies
       run: dotnet add package MadMilkman.Ini --version 1.0.6
+    - name: run mkdir _build
+    
+      
     - name: Build
       run: dotnet build --no-restore
     - name: Test
