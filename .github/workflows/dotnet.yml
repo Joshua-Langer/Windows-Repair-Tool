@@ -1,4 +1,4 @@
-name: .NET
+name: Windows Repair Tool Builder
 
 on:
   push:
@@ -11,16 +11,23 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: microsoft/setup-msbuild@v1
+    - uses: actions/checkout@v1
+      name: Checkout Code
+
+    - name: Setup MSBuild Path
+      uses: RepairTool/Setup-MSBuild@v1      
     - name: Install dependencies
       run: dotnet add package MadMilkman.Ini --version 1.0.6
-    - name: Create Build Directory
-      run: run mkdir _build
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1.0.2
+    - name: Restore NuGet Packages
+      run: nuget restore RepairTool.sln
+    - name: Build Application
+      run: msBuild RepairTool.sln /p:Configuration=Release
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: RepairTool_Artifact
+        path: bin\Release\Publish
     
-      
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+
