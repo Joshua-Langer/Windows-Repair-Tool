@@ -13,9 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
       name: Checkout Code
-
-    - name: Setup MSBuild Path
-      uses: warrenbuckley/Setup-MSBuild@v1      
+   
     - name: Install dependencies
       run: dotnet add package MadMilkman.Ini --version 1.0.6
     - name: Setup NuGet
