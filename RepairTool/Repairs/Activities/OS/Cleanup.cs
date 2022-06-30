@@ -16,16 +16,13 @@ namespace RepairTool.Repairs.Activities.OS
             var exitCode = 0;
             var errorCodeToAvoid = 0;
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments, exitCode, errorCodeToAvoid);
-            if (EnvironmentVars.WarningsDetected)
+            
+            if (EnvironmentVars.ErrorsDetected)
             {
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
                 {
-                    Logger.LogWarning("TDSS Killer failed to run correctly.", w);
+                    Logger.LogInfo("Check Disk found errors and will run a repair on the next reboot...", w);
                 }
-            }
-
-            if (EnvironmentVars.ErrorsDetected)
-            {
                 FileSystemUtil();
             }
         }

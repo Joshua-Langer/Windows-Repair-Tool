@@ -137,15 +137,15 @@ namespace RepairTool.Repairs.Activities.Global
             ProcessRunner.TaskRunner(repairType, taskName, runFile, arguments);
         }
 
-        private static void ClearWindowsApps()
+        public static void ClearWindowsApps()
         {
             var repairType = "Debloat";
             var taskName = "Remove Windows Apps";
             var runFileFirst = EnvironmentVars.GLOBALREP + "metro\\metro_3rd_party_modern_apps_to_target_by_name.ps1";
             var runFileSecond = EnvironmentVars.GLOBALREP + "metro\\metro_Microsoft_modern_apps_to_target_by_name.ps1";
-            var startFire = EnvironmentVars.WINDIR + "system32\\cmd.exe";
-            var argumentsOne = "start /wait powershell -executionpolicy bypass -file " + runFileFirst;
-            var argumentsTwo = "start /wait powershell -executionpolicy bypass -file " + runFileSecond;
+            var startFire = EnvironmentVars.WINDIR + "system32\\WindowsPowerShell\\v1.0\\powershell.exe";
+            var argumentsOne = "start -executionpolicy bypass -file " + runFileFirst;
+            var argumentsTwo = "start -executionpolicy bypass -file " + runFileSecond;
             ProcessRunner.TaskRunner(repairType, taskName, startFire, argumentsOne);
             System.Threading.Thread.Sleep(2500);
             ProcessRunner.TaskRunner(repairType, taskName, startFire, argumentsTwo);
