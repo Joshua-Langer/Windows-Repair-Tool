@@ -153,7 +153,7 @@ namespace RepairTool.Core
                 }
             }
 
-            if (error != errorCodeToAvoid.ToString())
+            if (error == errorCodeToAvoid.ToString())
             {
                 EnvironmentVars.ErrorsDetected = true; // Set to true in case we need to run additional methods.
                 using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
