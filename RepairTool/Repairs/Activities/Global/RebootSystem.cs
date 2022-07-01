@@ -1,11 +1,6 @@
 ﻿using RepairTool.Core;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RepairTool.Repairs.Activities.Global
 {
@@ -16,14 +11,14 @@ namespace RepairTool.Repairs.Activities.Global
 			var runFile = EnvironmentVars.WINDIR + "system32\\shutdown.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
-				Logger.LogInfo("Repairing Component Store", w);
+				Logger.LogInfo("Rebooting System in 5 minutes...", w);
 			}
 			// Prepare the process to run
 			ProcessStartInfo start = new ProcessStartInfo();
 			start.UseShellExecute = false;
 			start.RedirectStandardOutput = true;
 			// Enter in the command line arguments, everything you would enter after the executable name itself
-			start.Arguments = "-r -t 60";
+			start.Arguments = "-r -t 300";
 
 			// Enter the executable to run, including the complete path
 			start.FileName = runFile;
@@ -45,11 +40,6 @@ namespace RepairTool.Repairs.Activities.Global
 				}
 				// Retrieve the app's exit code
 				exitCode = proc.ExitCode;
-			}
-
-			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-			{
-				Logger.LogInfo("Done.", w);
 			}
 		}
     }
