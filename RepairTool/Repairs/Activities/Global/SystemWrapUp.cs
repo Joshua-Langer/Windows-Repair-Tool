@@ -14,7 +14,7 @@ namespace RepairTool.Repairs.Activities.Global
         public static void SystemFileChecker()
         {
 			Console.Title = "Windows Repair Tool - Wrapup - System File Check - Verify " + EnvironmentVars.APPVERSION;
-			var runFile = EnvironmentVars.WINDIR + "system32\\sfc.exe";
+			var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
 				Logger.LogInfo("Checking system files for integrity violations...", w);
@@ -24,7 +24,7 @@ namespace RepairTool.Repairs.Activities.Global
 			start.UseShellExecute = false;
 			start.RedirectStandardOutput = true;
 			// Enter in the command line arguments, everything you would enter after the executable name itself
-			start.Arguments = "/verifyonly";
+			start.Arguments = "sfc /verifyonly";
 
 			// Enter the executable to run, including the complete path
 			start.FileName = runFile;
@@ -57,7 +57,7 @@ namespace RepairTool.Repairs.Activities.Global
         public static void ComponentStoreChecker()
         {
 			Console.Title = "Windows Repair Tool - Wrapup - Component Store Check - Verify " + EnvironmentVars.APPVERSION;
-			var runFile = EnvironmentVars.WINDIR + "system32\\dism.exe";
+			var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
 				Logger.LogInfo("Checking for Component Store Corruption...", w);
@@ -67,7 +67,7 @@ namespace RepairTool.Repairs.Activities.Global
 			start.UseShellExecute = false;
 			start.RedirectStandardOutput = true;
 			// Enter in the command line arguments, everything you would enter after the executable name itself
-			start.Arguments = "/Online /Cleanup-Image /Scanhealth";
+			start.Arguments = "dism /Online /Cleanup-Image /Scanhealth";
 
 			// Enter the executable to run, including the complete path
 			start.FileName = runFile;
@@ -100,7 +100,7 @@ namespace RepairTool.Repairs.Activities.Global
         public static void SystemFileRepair()
         {
 			Console.Title = "Windows Repair Tool - Wrapup - System File Check - Repair " + EnvironmentVars.APPVERSION;
-			var runFile = EnvironmentVars.WINDIR + "system32\\sfc.exe";
+			var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
 				Logger.LogInfo("Repairing integrity violations...", w);
@@ -110,7 +110,7 @@ namespace RepairTool.Repairs.Activities.Global
 			start.UseShellExecute = false;
 			start.RedirectStandardOutput = true;
 			// Enter in the command line arguments, everything you would enter after the executable name itself
-			start.Arguments = "/scannow";
+			start.Arguments = "sfc /scannow";
 
 			// Enter the executable to run, including the complete path
 			start.FileName = runFile;
@@ -145,7 +145,7 @@ namespace RepairTool.Repairs.Activities.Global
         public static void ComponentStoreRepair()
         {
 			Console.Title = "Windows Repair Tool - Wrapup - Component Store Check - Repair " + EnvironmentVars.APPVERSION;
-			var runFile = EnvironmentVars.WINDIR + "system32\\dism.exe";
+			var runFile = EnvironmentVars.WINDIR + "system32\\cmd.exe";
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
 				Logger.LogInfo("Repairing Component Store", w);
@@ -155,7 +155,7 @@ namespace RepairTool.Repairs.Activities.Global
 			start.UseShellExecute = false;
 			start.RedirectStandardOutput = true;
 			// Enter in the command line arguments, everything you would enter after the executable name itself
-			start.Arguments = "/Online /Cleanup-Image /Restorehealth";
+			start.Arguments = "dism /Online /Cleanup-Image /Restorehealth";
 
 			// Enter the executable to run, including the complete path
 			start.FileName = runFile;
@@ -182,14 +182,6 @@ namespace RepairTool.Repairs.Activities.Global
 			using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
 			{
 				Logger.LogInfo("Done.", w);
-			}
-
-			if (EnvironmentVars.RebootRequired)
-            {
-				using (StreamWriter w = File.AppendText(EnvironmentVars.LOGFILE))
-				{
-					Logger.LogInfo("A system reboot is required... System will reboot once repairs are completed.", w);
-				}
 			}
 		}
     }
